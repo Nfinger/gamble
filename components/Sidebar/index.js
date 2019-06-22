@@ -57,8 +57,12 @@ const routes = [
 
 library.add(faAngleLeft, faAngleRight, faSearch, faSlidersH);
 
-const Sidebar = ({ reduxState: { auth: { user } = {} } = {} }: Props) => {
-  routes[0].children = user.leagues.map(({ id, contests = [], leagueName }) => {
+const Sidebar = ({
+  reduxState: {
+    auth: { user: { firstName, lastName, leagues = [] } } = {}
+  } = {}
+}: Props) => {
+  routes[0].children = leagues.map(({ id, contests = [], leagueName }) => {
     const activeContests = contests.filter(
       contest => isPast(contest.start) && !isPast(contest.end)
     );
@@ -147,7 +151,7 @@ const Sidebar = ({ reduxState: { auth: { user } = {} } = {} }: Props) => {
             <AvatarDiv />
             <NameContainer>
               <Name>
-                {user.firstName} {user.lastName}
+                {firstName} {lastName}
               </Name>
               <Role />
             </NameContainer>
