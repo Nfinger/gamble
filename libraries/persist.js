@@ -1,6 +1,7 @@
 // @flow
 import { parseCookies } from 'nookies';
-import Cookie from 'js-cookie';
+// import Cookie from 'js-cookie';
+import cookie from 'react-cookies';
 import { addMonths } from 'date-fns';
 
 export default class persist {
@@ -13,12 +14,12 @@ export default class persist {
   }
 
   static async willSetAccessToken(value: string) {
-    return Cookie.set('authToken', value, {
+    return cookie.save('authToken', value, {
       expires: addMonths(new Date(), 12)
     });
   }
 
   static async willRemoveAccessToken() {
-    return Cookie.remove('authToken');
+    return cookie.remove('authToken');
   }
 }
