@@ -108,20 +108,24 @@ if (process.env.STATIC_EXPORT) {
     }
   `;
 
-  initExport.exportPathMap = function exportPathMap() {
-    const routes = {};
-
-    routes['/'] = {
-      page: '/'
+  initExport.exportPathMap = async function exportPathMap() {
+    const routes = {
+      '/': {
+        page: '/'
+      },
+      '/createContest': {
+        page: '/createContest'
+      }
     };
 
-    client.request(query).then(({ allLeagues }) => {
-      allLeagues.forEach(({ id }) => {
-        routes[`/league/${id}`] = {
-          page: '/league',
-          query: { id }
-        };
-      });
+    const { allLeagues } = await client.request(query);
+    console.log(allLeagues);
+    allLeagues.forEach(({ id }) => {
+      console.log(id);
+      routes[`/league/${id}`] = {
+        page: '/league',
+        query: { id }
+      };
     });
 
     router.routes.forEach(route => {
@@ -131,7 +135,7 @@ if (process.env.STATIC_EXPORT) {
         };
       }
     });
-
+    console.log(routes);
     return routes;
   };
 }
