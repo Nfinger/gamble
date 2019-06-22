@@ -62,7 +62,6 @@ export default (
 
       const headers = ctx.req ? ctx.req.headers : {};
       const token: string = cookies(ctx)[persist.ACCESS_TOKEN_KEY];
-
       const props = {
         router: {
           url: { query: ctx.query, pathname: ctx.pathname }
@@ -74,7 +73,6 @@ export default (
 
       if (!process.browser) {
         const client = apolloClient(headers || {}, token || '', {}, ctx);
-        console.log(token);
         const { userId } = token ? jwtToken(token) : {};
         const { data: { User = {} } = {} } = userId
           ? await client.query({
@@ -110,6 +108,23 @@ export default (
         headers,
         ...props
       };
+    }
+
+    async componentDidMount() {
+      console.log('Im in the Component did mount');
+      const token = await persist.willGetAccessToken({});
+      console.log('I just checked the cookies for the token', token);
+      const { userId } = token ? jwtToken(token) : {};
+      console.log('I just decoded the token');
+      const { data: { User = {} } = {} } = userId
+        ? await this.apolloClient.query({
+            query: getUser,
+            variables: { userId }
+          })
+        : { data: { User: {} } };
+      console.log('I just got the user from a query', User);
+      this.props.reduxState.auth = { user: User };
+      this.reduxStore = reduxStore(this.props.reduxState);
     }
 
     apolloClient: Object;
