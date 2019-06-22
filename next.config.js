@@ -3,7 +3,20 @@ const { IgnorePlugin } = require('webpack');
 const OfflinePlugin = require('offline-plugin');
 const Dotenv = require('dotenv-webpack');
 const withCSS = require('@zeit/next-css');
+const { GraphQLClient } = require('graphql-request');
 const router = require('./routes');
+
+const connect = () => {
+  const endpoint = 'https://api.graph.cool/simple/v1/cjww5ma3i36ia0106alic88xy';
+
+  const graphQLClient = new GraphQLClient(endpoint, {
+    headers: {
+      authorization:
+        'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjA1MTk5NDYsImNsaWVudElkIjoiY2p3dzVhN3YzMjdtYzAxMzE3anhud2NtZSJ9.xkQUQOeHJ4IvTRT7gM77M60FcMCzWm1lkCc-biSvwRs'
+    }
+  });
+  return graphQLClient;
+};
 
 const initExport = {
   cssLoaderOptions: {
@@ -86,11 +99,31 @@ const initExport = {
 };
 
 if (process.env.STATIC_EXPORT) {
+  const client = connect();
+  const query = /* GraphQL */ `
+    {
+      allLeagues {
+        id
+      }
+    }
+  `;
+
   initExport.exportPathMap = function exportPathMap() {
     const routes = {};
+
     routes['/'] = {
       page: '/'
     };
+
+    client.request(query).then(({ allLeagues }) => {
+      allLeagues.forEach(({ id }) => {
+        routes[`/league/${id}`] = {
+          page: '/league',
+          query: { id }
+        };
+      });
+    });
+
     router.routes.forEach(route => {
       if (!route.pattern.includes(':')) {
         routes[route.pattern] = {
