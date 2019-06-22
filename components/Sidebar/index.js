@@ -62,6 +62,7 @@ const Sidebar = ({
     auth: { user: { firstName, lastName, leagues = [] } } = {}
   } = {}
 }: Props) => {
+  console.log('DO I HAVE A USER?', { firstName, lastName, leagues });
   routes[0].children = leagues.map(({ id, contests = [], leagueName }) => {
     const activeContests = contests.filter(
       contest => isPast(contest.start) && !isPast(contest.end)
