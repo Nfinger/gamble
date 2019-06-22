@@ -15,6 +15,7 @@ export default class persist {
 
   static async willSetAccessToken(value: string) {
     return setCookie({}, 'authToken', value, {
+      path: '/',
       expires: addMonths(new Date(), 12)
     });
   }
