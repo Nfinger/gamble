@@ -42,7 +42,8 @@ import connect from './store';
 import { Link } from '../../routes';
 
 type Props = {
-  reduxState: Object
+  reduxState: Object,
+  loading: Boolean
 };
 
 const routes = [
@@ -61,8 +62,10 @@ const Sidebar = ({
   reduxState: {
     auth: { user: { firstName, lastName, leagues = [] } } = {}
   } = {},
+  loading,
   ...rest
 }: Props) => {
+  if (loading) return <>Loading</>;
   console.log('DO I HAVE A USER?', rest);
   routes[0].children = leagues.map(({ id, contests = [], leagueName }) => {
     const activeContests = contests.filter(
