@@ -1,0 +1,38 @@
+query getLeague($leagueId: ID!) {
+  League(id: $leagueId) {
+    id,
+    leagueName
+    members {
+      id
+      firstName
+      lastName
+    },
+    contests {
+      id
+      contestName
+      entries {
+        id
+        picks
+        owner {
+          id
+          email
+          firstName
+          lastName
+        }
+      }
+      scoringFormats
+      sports
+      events {
+        id
+        sport
+        participants
+        leaderboard
+        name
+        start
+        end
+      }
+      start
+      end
+    }
+  }
+}

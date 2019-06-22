@@ -1,0 +1,4444 @@
+# source: https://api.graph.cool/simple/v1/cjww5ma3i36ia0106alic88xy
+# timestamp: Fri Jun 21 2019 12:33:07 GMT-0400 (EDT)
+
+enum _ModelMutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+"""Meta information about the query."""
+type _QueryMeta {
+  count: Int!
+}
+
+type AddToContestEntryPayload {
+  contestContest: Contest
+  entriesEntry: Entry
+}
+
+type AddToContestEventsPayload {
+  eventsEvent: Event
+  contestsContest: Contest
+}
+
+type AddToCreatedLeaguesPayload {
+  createdByUser: User
+  createdLeague: League
+}
+
+type AddToEntryOwnerPayload {
+  ownerUser: User
+  userEntriesEntry: Entry
+}
+
+type AddToLeagueContestsPayload {
+  contestsContest: Contest
+  leagueLeague: League
+}
+
+type AddToLeagueMembersPayload {
+  membersUser: User
+  leaguesLeague: League
+}
+
+input AUTH_PROVIDER_EMAIL {
+  email: String!
+  password: String!
+}
+
+input AuthProviderSignupData {
+  email: AUTH_PROVIDER_EMAIL
+}
+
+type Contest implements Node {
+  buyIn: Int
+  contestName: String
+  createdAt: DateTime!
+  end: DateTime
+  entries(filter: EntryFilter, orderBy: EntryOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [Entry!]
+  events(filter: EventFilter, orderBy: EventOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
+  id: ID!
+  league(filter: LeagueFilter): League
+  limitEntries: Boolean
+  numberOfEntries: Int
+  payout: String
+  places: [String!]
+  scoringFormats: [Json!]
+  sideBets: Boolean
+  sports: [String!]
+  start: DateTime
+
+  """Meta information about the query."""
+  _entriesMeta(filter: EntryFilter, orderBy: EntryOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+
+  """Meta information about the query."""
+  _eventsMeta(filter: EventFilter, orderBy: EventOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+}
+
+input ContestentriesEntry {
+  picks: [Json!]
+  ownerId: ID
+}
+
+input ContesteventsEvent {
+  end: DateTime
+  leaderboard: Json
+  name: String
+  participants: [Json!]
+  sport: String
+  sportsRadarId: String
+  start: DateTime
+  contestsIds: [ID!]
+  contests: [EventcontestsContest!]
+}
+
+input ContestFilter {
+  """Logical AND on all given filters."""
+  AND: [ContestFilter!]
+
+  """Logical OR on all given filters."""
+  OR: [ContestFilter!]
+  buyIn: Int
+
+  """All values that are not equal to given value."""
+  buyIn_not: Int
+
+  """All values that are contained in given list."""
+  buyIn_in: [Int!]
+
+  """All values that are not contained in given list."""
+  buyIn_not_in: [Int!]
+
+  """All values less than the given value."""
+  buyIn_lt: Int
+
+  """All values less than or equal the given value."""
+  buyIn_lte: Int
+
+  """All values greater than the given value."""
+  buyIn_gt: Int
+
+  """All values greater than or equal the given value."""
+  buyIn_gte: Int
+  contestName: String
+
+  """All values that are not equal to given value."""
+  contestName_not: String
+
+  """All values that are contained in given list."""
+  contestName_in: [String!]
+
+  """All values that are not contained in given list."""
+  contestName_not_in: [String!]
+
+  """All values less than the given value."""
+  contestName_lt: String
+
+  """All values less than or equal the given value."""
+  contestName_lte: String
+
+  """All values greater than the given value."""
+  contestName_gt: String
+
+  """All values greater than or equal the given value."""
+  contestName_gte: String
+
+  """All values containing the given string."""
+  contestName_contains: String
+
+  """All values not containing the given string."""
+  contestName_not_contains: String
+
+  """All values starting with the given string."""
+  contestName_starts_with: String
+
+  """All values not starting with the given string."""
+  contestName_not_starts_with: String
+
+  """All values ending with the given string."""
+  contestName_ends_with: String
+
+  """All values not ending with the given string."""
+  contestName_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  end: DateTime
+
+  """All values that are not equal to given value."""
+  end_not: DateTime
+
+  """All values that are contained in given list."""
+  end_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  end_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  end_lt: DateTime
+
+  """All values less than or equal the given value."""
+  end_lte: DateTime
+
+  """All values greater than the given value."""
+  end_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  end_gte: DateTime
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  limitEntries: Boolean
+
+  """All values that are not equal to given value."""
+  limitEntries_not: Boolean
+  numberOfEntries: Int
+
+  """All values that are not equal to given value."""
+  numberOfEntries_not: Int
+
+  """All values that are contained in given list."""
+  numberOfEntries_in: [Int!]
+
+  """All values that are not contained in given list."""
+  numberOfEntries_not_in: [Int!]
+
+  """All values less than the given value."""
+  numberOfEntries_lt: Int
+
+  """All values less than or equal the given value."""
+  numberOfEntries_lte: Int
+
+  """All values greater than the given value."""
+  numberOfEntries_gt: Int
+
+  """All values greater than or equal the given value."""
+  numberOfEntries_gte: Int
+  payout: String
+
+  """All values that are not equal to given value."""
+  payout_not: String
+
+  """All values that are contained in given list."""
+  payout_in: [String!]
+
+  """All values that are not contained in given list."""
+  payout_not_in: [String!]
+
+  """All values less than the given value."""
+  payout_lt: String
+
+  """All values less than or equal the given value."""
+  payout_lte: String
+
+  """All values greater than the given value."""
+  payout_gt: String
+
+  """All values greater than or equal the given value."""
+  payout_gte: String
+
+  """All values containing the given string."""
+  payout_contains: String
+
+  """All values not containing the given string."""
+  payout_not_contains: String
+
+  """All values starting with the given string."""
+  payout_starts_with: String
+
+  """All values not starting with the given string."""
+  payout_not_starts_with: String
+
+  """All values ending with the given string."""
+  payout_ends_with: String
+
+  """All values not ending with the given string."""
+  payout_not_ends_with: String
+  sideBets: Boolean
+
+  """All values that are not equal to given value."""
+  sideBets_not: Boolean
+  start: DateTime
+
+  """All values that are not equal to given value."""
+  start_not: DateTime
+
+  """All values that are contained in given list."""
+  start_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  start_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  start_lt: DateTime
+
+  """All values less than or equal the given value."""
+  start_lte: DateTime
+
+  """All values greater than the given value."""
+  start_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  start_gte: DateTime
+  entries_every: EntryFilter
+  entries_some: EntryFilter
+  entries_none: EntryFilter
+  events_every: EventFilter
+  events_some: EventFilter
+  events_none: EventFilter
+  league: LeagueFilter
+}
+
+input ContestleagueLeague {
+  autoCreate: Boolean!
+  defaultBuyIn: Int!
+  end: DateTime
+  leagueName: String!
+  sports: [String!]
+  start: DateTime
+  createdById: ID
+  contestsIds: [ID!]
+  contests: [LeaguecontestsContest!]
+  membersIds: [ID!]
+}
+
+enum ContestOrderBy {
+  buyIn_ASC
+  buyIn_DESC
+  contestName_ASC
+  contestName_DESC
+  createdAt_ASC
+  createdAt_DESC
+  end_ASC
+  end_DESC
+  id_ASC
+  id_DESC
+  limitEntries_ASC
+  limitEntries_DESC
+  numberOfEntries_ASC
+  numberOfEntries_DESC
+  payout_ASC
+  payout_DESC
+  sideBets_ASC
+  sideBets_DESC
+  start_ASC
+  start_DESC
+}
+
+type ContestPreviousValues {
+  buyIn: Int
+  contestName: String
+  createdAt: DateTime!
+  end: DateTime
+  id: ID!
+  limitEntries: Boolean
+  numberOfEntries: Int
+  payout: String
+  places: [String!]
+  scoringFormats: [Json!]
+  sideBets: Boolean
+  sports: [String!]
+  start: DateTime
+}
+
+input ContestSubscriptionFilter {
+  """Logical AND on all given filters."""
+  AND: [ContestSubscriptionFilter!]
+
+  """Logical OR on all given filters."""
+  OR: [ContestSubscriptionFilter!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [_ModelMutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ContestSubscriptionFilterNode
+}
+
+input ContestSubscriptionFilterNode {
+  buyIn: Int
+
+  """All values that are not equal to given value."""
+  buyIn_not: Int
+
+  """All values that are contained in given list."""
+  buyIn_in: [Int!]
+
+  """All values that are not contained in given list."""
+  buyIn_not_in: [Int!]
+
+  """All values less than the given value."""
+  buyIn_lt: Int
+
+  """All values less than or equal the given value."""
+  buyIn_lte: Int
+
+  """All values greater than the given value."""
+  buyIn_gt: Int
+
+  """All values greater than or equal the given value."""
+  buyIn_gte: Int
+  contestName: String
+
+  """All values that are not equal to given value."""
+  contestName_not: String
+
+  """All values that are contained in given list."""
+  contestName_in: [String!]
+
+  """All values that are not contained in given list."""
+  contestName_not_in: [String!]
+
+  """All values less than the given value."""
+  contestName_lt: String
+
+  """All values less than or equal the given value."""
+  contestName_lte: String
+
+  """All values greater than the given value."""
+  contestName_gt: String
+
+  """All values greater than or equal the given value."""
+  contestName_gte: String
+
+  """All values containing the given string."""
+  contestName_contains: String
+
+  """All values not containing the given string."""
+  contestName_not_contains: String
+
+  """All values starting with the given string."""
+  contestName_starts_with: String
+
+  """All values not starting with the given string."""
+  contestName_not_starts_with: String
+
+  """All values ending with the given string."""
+  contestName_ends_with: String
+
+  """All values not ending with the given string."""
+  contestName_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  end: DateTime
+
+  """All values that are not equal to given value."""
+  end_not: DateTime
+
+  """All values that are contained in given list."""
+  end_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  end_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  end_lt: DateTime
+
+  """All values less than or equal the given value."""
+  end_lte: DateTime
+
+  """All values greater than the given value."""
+  end_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  end_gte: DateTime
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  limitEntries: Boolean
+
+  """All values that are not equal to given value."""
+  limitEntries_not: Boolean
+  numberOfEntries: Int
+
+  """All values that are not equal to given value."""
+  numberOfEntries_not: Int
+
+  """All values that are contained in given list."""
+  numberOfEntries_in: [Int!]
+
+  """All values that are not contained in given list."""
+  numberOfEntries_not_in: [Int!]
+
+  """All values less than the given value."""
+  numberOfEntries_lt: Int
+
+  """All values less than or equal the given value."""
+  numberOfEntries_lte: Int
+
+  """All values greater than the given value."""
+  numberOfEntries_gt: Int
+
+  """All values greater than or equal the given value."""
+  numberOfEntries_gte: Int
+  payout: String
+
+  """All values that are not equal to given value."""
+  payout_not: String
+
+  """All values that are contained in given list."""
+  payout_in: [String!]
+
+  """All values that are not contained in given list."""
+  payout_not_in: [String!]
+
+  """All values less than the given value."""
+  payout_lt: String
+
+  """All values less than or equal the given value."""
+  payout_lte: String
+
+  """All values greater than the given value."""
+  payout_gt: String
+
+  """All values greater than or equal the given value."""
+  payout_gte: String
+
+  """All values containing the given string."""
+  payout_contains: String
+
+  """All values not containing the given string."""
+  payout_not_contains: String
+
+  """All values starting with the given string."""
+  payout_starts_with: String
+
+  """All values not starting with the given string."""
+  payout_not_starts_with: String
+
+  """All values ending with the given string."""
+  payout_ends_with: String
+
+  """All values not ending with the given string."""
+  payout_not_ends_with: String
+  sideBets: Boolean
+
+  """All values that are not equal to given value."""
+  sideBets_not: Boolean
+  start: DateTime
+
+  """All values that are not equal to given value."""
+  start_not: DateTime
+
+  """All values that are contained in given list."""
+  start_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  start_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  start_lt: DateTime
+
+  """All values less than or equal the given value."""
+  start_lte: DateTime
+
+  """All values greater than the given value."""
+  start_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  start_gte: DateTime
+  entries_every: EntryFilter
+  entries_some: EntryFilter
+  entries_none: EntryFilter
+  events_every: EventFilter
+  events_some: EventFilter
+  events_none: EventFilter
+  league: LeagueFilter
+}
+
+type ContestSubscriptionPayload {
+  mutation: _ModelMutationType!
+  node: Contest
+  updatedFields: [String!]
+  previousValues: ContestPreviousValues
+}
+
+input CreateContest {
+  buyIn: Int
+  contestName: String
+  end: DateTime
+  limitEntries: Boolean
+  numberOfEntries: Int
+  payout: String
+  places: [String!]
+  scoringFormats: [Json!]
+  sideBets: Boolean
+  sports: [String!]
+  start: DateTime
+  leagueId: ID
+  league: ContestleagueLeague
+  entriesIds: [ID!]
+  entries: [ContestentriesEntry!]
+  eventsIds: [ID!]
+  events: [ContesteventsEvent!]
+}
+
+input CreateEntry {
+  picks: [Json!]
+  contestId: ID
+  contest: EntrycontestContest
+  ownerId: ID
+}
+
+input CreateEvent {
+  end: DateTime
+  leaderboard: Json
+  name: String
+  participants: [Json!]
+  sport: String
+  sportsRadarId: String
+  start: DateTime
+  contestsIds: [ID!]
+  contests: [EventcontestsContest!]
+}
+
+input CreateFile {
+  name: String!
+}
+
+input CreateGolfStats {
+  avgPoints: String
+  country: String
+  eventsPlayed: String
+  eventsPlayedActual: String
+  lastWeek: Int
+  name: String
+  pointsGained: String
+  pointsLost: String
+  thisWeek: Int
+  totalPoints: String
+}
+
+input CreateLeague {
+  autoCreate: Boolean!
+  defaultBuyIn: Int!
+  end: DateTime
+  leagueName: String!
+  sports: [String!]
+  start: DateTime
+  createdById: ID
+  contestsIds: [ID!]
+  contests: [LeaguecontestsContest!]
+  membersIds: [ID!]
+}
+
+input CreateUser {
+  firstName: String!
+  lastName: String!
+  createdIds: [ID!]
+  created: [UsercreatedLeague!]
+  leaguesIds: [ID!]
+  leagues: [UserleaguesLeague!]
+  userEntriesIds: [ID!]
+  userEntries: [UseruserEntriesEntry!]
+}
+
+scalar DateTime
+
+type Entry implements Node {
+  contest(filter: ContestFilter): Contest
+  createdAt: DateTime!
+  id: ID!
+  owner(filter: UserFilter): User
+  picks: [Json!]
+}
+
+input EntrycontestContest {
+  buyIn: Int
+  contestName: String
+  end: DateTime
+  limitEntries: Boolean
+  numberOfEntries: Int
+  payout: String
+  places: [String!]
+  scoringFormats: [Json!]
+  sideBets: Boolean
+  sports: [String!]
+  start: DateTime
+  leagueId: ID
+  league: ContestleagueLeague
+  entriesIds: [ID!]
+  entries: [ContestentriesEntry!]
+  eventsIds: [ID!]
+  events: [ContesteventsEvent!]
+}
+
+input EntryFilter {
+  """Logical AND on all given filters."""
+  AND: [EntryFilter!]
+
+  """Logical OR on all given filters."""
+  OR: [EntryFilter!]
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  contest: ContestFilter
+  owner: UserFilter
+}
+
+enum EntryOrderBy {
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+}
+
+type EntryPreviousValues {
+  createdAt: DateTime!
+  id: ID!
+  picks: [Json!]
+}
+
+input EntrySubscriptionFilter {
+  """Logical AND on all given filters."""
+  AND: [EntrySubscriptionFilter!]
+
+  """Logical OR on all given filters."""
+  OR: [EntrySubscriptionFilter!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [_ModelMutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: EntrySubscriptionFilterNode
+}
+
+input EntrySubscriptionFilterNode {
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  contest: ContestFilter
+  owner: UserFilter
+}
+
+type EntrySubscriptionPayload {
+  mutation: _ModelMutationType!
+  node: Entry
+  updatedFields: [String!]
+  previousValues: EntryPreviousValues
+}
+
+type Event implements Node {
+  contests(filter: ContestFilter, orderBy: ContestOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [Contest!]
+  createdAt: DateTime!
+  end: DateTime
+  id: ID!
+  leaderboard: Json
+  name: String
+  participants: [Json!]
+  sport: String
+  sportsRadarId: String
+  start: DateTime
+
+  """Meta information about the query."""
+  _contestsMeta(filter: ContestFilter, orderBy: ContestOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+}
+
+input EventcontestsContest {
+  buyIn: Int
+  contestName: String
+  end: DateTime
+  limitEntries: Boolean
+  numberOfEntries: Int
+  payout: String
+  places: [String!]
+  scoringFormats: [Json!]
+  sideBets: Boolean
+  sports: [String!]
+  start: DateTime
+  leagueId: ID
+  league: ContestleagueLeague
+  entriesIds: [ID!]
+  entries: [ContestentriesEntry!]
+  eventsIds: [ID!]
+  events: [ContesteventsEvent!]
+}
+
+input EventFilter {
+  """Logical AND on all given filters."""
+  AND: [EventFilter!]
+
+  """Logical OR on all given filters."""
+  OR: [EventFilter!]
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  end: DateTime
+
+  """All values that are not equal to given value."""
+  end_not: DateTime
+
+  """All values that are contained in given list."""
+  end_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  end_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  end_lt: DateTime
+
+  """All values less than or equal the given value."""
+  end_lte: DateTime
+
+  """All values greater than the given value."""
+  end_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  end_gte: DateTime
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  sport: String
+
+  """All values that are not equal to given value."""
+  sport_not: String
+
+  """All values that are contained in given list."""
+  sport_in: [String!]
+
+  """All values that are not contained in given list."""
+  sport_not_in: [String!]
+
+  """All values less than the given value."""
+  sport_lt: String
+
+  """All values less than or equal the given value."""
+  sport_lte: String
+
+  """All values greater than the given value."""
+  sport_gt: String
+
+  """All values greater than or equal the given value."""
+  sport_gte: String
+
+  """All values containing the given string."""
+  sport_contains: String
+
+  """All values not containing the given string."""
+  sport_not_contains: String
+
+  """All values starting with the given string."""
+  sport_starts_with: String
+
+  """All values not starting with the given string."""
+  sport_not_starts_with: String
+
+  """All values ending with the given string."""
+  sport_ends_with: String
+
+  """All values not ending with the given string."""
+  sport_not_ends_with: String
+  sportsRadarId: String
+
+  """All values that are not equal to given value."""
+  sportsRadarId_not: String
+
+  """All values that are contained in given list."""
+  sportsRadarId_in: [String!]
+
+  """All values that are not contained in given list."""
+  sportsRadarId_not_in: [String!]
+
+  """All values less than the given value."""
+  sportsRadarId_lt: String
+
+  """All values less than or equal the given value."""
+  sportsRadarId_lte: String
+
+  """All values greater than the given value."""
+  sportsRadarId_gt: String
+
+  """All values greater than or equal the given value."""
+  sportsRadarId_gte: String
+
+  """All values containing the given string."""
+  sportsRadarId_contains: String
+
+  """All values not containing the given string."""
+  sportsRadarId_not_contains: String
+
+  """All values starting with the given string."""
+  sportsRadarId_starts_with: String
+
+  """All values not starting with the given string."""
+  sportsRadarId_not_starts_with: String
+
+  """All values ending with the given string."""
+  sportsRadarId_ends_with: String
+
+  """All values not ending with the given string."""
+  sportsRadarId_not_ends_with: String
+  start: DateTime
+
+  """All values that are not equal to given value."""
+  start_not: DateTime
+
+  """All values that are contained in given list."""
+  start_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  start_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  start_lt: DateTime
+
+  """All values less than or equal the given value."""
+  start_lte: DateTime
+
+  """All values greater than the given value."""
+  start_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  start_gte: DateTime
+  contests_every: ContestFilter
+  contests_some: ContestFilter
+  contests_none: ContestFilter
+}
+
+enum EventOrderBy {
+  createdAt_ASC
+  createdAt_DESC
+  end_ASC
+  end_DESC
+  id_ASC
+  id_DESC
+  leaderboard_ASC
+  leaderboard_DESC
+  name_ASC
+  name_DESC
+  sport_ASC
+  sport_DESC
+  sportsRadarId_ASC
+  sportsRadarId_DESC
+  start_ASC
+  start_DESC
+}
+
+type EventPreviousValues {
+  createdAt: DateTime!
+  end: DateTime
+  id: ID!
+  leaderboard: Json
+  name: String
+  participants: [Json!]
+  sport: String
+  sportsRadarId: String
+  start: DateTime
+}
+
+input EventSubscriptionFilter {
+  """Logical AND on all given filters."""
+  AND: [EventSubscriptionFilter!]
+
+  """Logical OR on all given filters."""
+  OR: [EventSubscriptionFilter!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [_ModelMutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: EventSubscriptionFilterNode
+}
+
+input EventSubscriptionFilterNode {
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  end: DateTime
+
+  """All values that are not equal to given value."""
+  end_not: DateTime
+
+  """All values that are contained in given list."""
+  end_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  end_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  end_lt: DateTime
+
+  """All values less than or equal the given value."""
+  end_lte: DateTime
+
+  """All values greater than the given value."""
+  end_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  end_gte: DateTime
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  sport: String
+
+  """All values that are not equal to given value."""
+  sport_not: String
+
+  """All values that are contained in given list."""
+  sport_in: [String!]
+
+  """All values that are not contained in given list."""
+  sport_not_in: [String!]
+
+  """All values less than the given value."""
+  sport_lt: String
+
+  """All values less than or equal the given value."""
+  sport_lte: String
+
+  """All values greater than the given value."""
+  sport_gt: String
+
+  """All values greater than or equal the given value."""
+  sport_gte: String
+
+  """All values containing the given string."""
+  sport_contains: String
+
+  """All values not containing the given string."""
+  sport_not_contains: String
+
+  """All values starting with the given string."""
+  sport_starts_with: String
+
+  """All values not starting with the given string."""
+  sport_not_starts_with: String
+
+  """All values ending with the given string."""
+  sport_ends_with: String
+
+  """All values not ending with the given string."""
+  sport_not_ends_with: String
+  sportsRadarId: String
+
+  """All values that are not equal to given value."""
+  sportsRadarId_not: String
+
+  """All values that are contained in given list."""
+  sportsRadarId_in: [String!]
+
+  """All values that are not contained in given list."""
+  sportsRadarId_not_in: [String!]
+
+  """All values less than the given value."""
+  sportsRadarId_lt: String
+
+  """All values less than or equal the given value."""
+  sportsRadarId_lte: String
+
+  """All values greater than the given value."""
+  sportsRadarId_gt: String
+
+  """All values greater than or equal the given value."""
+  sportsRadarId_gte: String
+
+  """All values containing the given string."""
+  sportsRadarId_contains: String
+
+  """All values not containing the given string."""
+  sportsRadarId_not_contains: String
+
+  """All values starting with the given string."""
+  sportsRadarId_starts_with: String
+
+  """All values not starting with the given string."""
+  sportsRadarId_not_starts_with: String
+
+  """All values ending with the given string."""
+  sportsRadarId_ends_with: String
+
+  """All values not ending with the given string."""
+  sportsRadarId_not_ends_with: String
+  start: DateTime
+
+  """All values that are not equal to given value."""
+  start_not: DateTime
+
+  """All values that are contained in given list."""
+  start_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  start_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  start_lt: DateTime
+
+  """All values less than or equal the given value."""
+  start_lte: DateTime
+
+  """All values greater than the given value."""
+  start_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  start_gte: DateTime
+  contests_every: ContestFilter
+  contests_some: ContestFilter
+  contests_none: ContestFilter
+}
+
+type EventSubscriptionPayload {
+  mutation: _ModelMutationType!
+  node: Event
+  updatedFields: [String!]
+  previousValues: EventPreviousValues
+}
+
+type File implements Node {
+  contentType: String!
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  secret: String!
+  size: Int!
+  updatedAt: DateTime!
+  url: String!
+}
+
+input FileFilter {
+  """Logical AND on all given filters."""
+  AND: [FileFilter!]
+
+  """Logical OR on all given filters."""
+  OR: [FileFilter!]
+  contentType: String
+
+  """All values that are not equal to given value."""
+  contentType_not: String
+
+  """All values that are contained in given list."""
+  contentType_in: [String!]
+
+  """All values that are not contained in given list."""
+  contentType_not_in: [String!]
+
+  """All values less than the given value."""
+  contentType_lt: String
+
+  """All values less than or equal the given value."""
+  contentType_lte: String
+
+  """All values greater than the given value."""
+  contentType_gt: String
+
+  """All values greater than or equal the given value."""
+  contentType_gte: String
+
+  """All values containing the given string."""
+  contentType_contains: String
+
+  """All values not containing the given string."""
+  contentType_not_contains: String
+
+  """All values starting with the given string."""
+  contentType_starts_with: String
+
+  """All values not starting with the given string."""
+  contentType_not_starts_with: String
+
+  """All values ending with the given string."""
+  contentType_ends_with: String
+
+  """All values not ending with the given string."""
+  contentType_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  secret: String
+
+  """All values that are not equal to given value."""
+  secret_not: String
+
+  """All values that are contained in given list."""
+  secret_in: [String!]
+
+  """All values that are not contained in given list."""
+  secret_not_in: [String!]
+
+  """All values less than the given value."""
+  secret_lt: String
+
+  """All values less than or equal the given value."""
+  secret_lte: String
+
+  """All values greater than the given value."""
+  secret_gt: String
+
+  """All values greater than or equal the given value."""
+  secret_gte: String
+
+  """All values containing the given string."""
+  secret_contains: String
+
+  """All values not containing the given string."""
+  secret_not_contains: String
+
+  """All values starting with the given string."""
+  secret_starts_with: String
+
+  """All values not starting with the given string."""
+  secret_not_starts_with: String
+
+  """All values ending with the given string."""
+  secret_ends_with: String
+
+  """All values not ending with the given string."""
+  secret_not_ends_with: String
+  size: Int
+
+  """All values that are not equal to given value."""
+  size_not: Int
+
+  """All values that are contained in given list."""
+  size_in: [Int!]
+
+  """All values that are not contained in given list."""
+  size_not_in: [Int!]
+
+  """All values less than the given value."""
+  size_lt: Int
+
+  """All values less than or equal the given value."""
+  size_lte: Int
+
+  """All values greater than the given value."""
+  size_gt: Int
+
+  """All values greater than or equal the given value."""
+  size_gte: Int
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  url: String
+
+  """All values that are not equal to given value."""
+  url_not: String
+
+  """All values that are contained in given list."""
+  url_in: [String!]
+
+  """All values that are not contained in given list."""
+  url_not_in: [String!]
+
+  """All values less than the given value."""
+  url_lt: String
+
+  """All values less than or equal the given value."""
+  url_lte: String
+
+  """All values greater than the given value."""
+  url_gt: String
+
+  """All values greater than or equal the given value."""
+  url_gte: String
+
+  """All values containing the given string."""
+  url_contains: String
+
+  """All values not containing the given string."""
+  url_not_contains: String
+
+  """All values starting with the given string."""
+  url_starts_with: String
+
+  """All values not starting with the given string."""
+  url_not_starts_with: String
+
+  """All values ending with the given string."""
+  url_ends_with: String
+
+  """All values not ending with the given string."""
+  url_not_ends_with: String
+}
+
+enum FileOrderBy {
+  contentType_ASC
+  contentType_DESC
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  secret_ASC
+  secret_DESC
+  size_ASC
+  size_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  url_ASC
+  url_DESC
+}
+
+type FilePreviousValues {
+  contentType: String!
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  secret: String!
+  size: Int!
+  updatedAt: DateTime!
+  url: String!
+}
+
+input FileSubscriptionFilter {
+  """Logical AND on all given filters."""
+  AND: [FileSubscriptionFilter!]
+
+  """Logical OR on all given filters."""
+  OR: [FileSubscriptionFilter!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [_ModelMutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: FileSubscriptionFilterNode
+}
+
+input FileSubscriptionFilterNode {
+  contentType: String
+
+  """All values that are not equal to given value."""
+  contentType_not: String
+
+  """All values that are contained in given list."""
+  contentType_in: [String!]
+
+  """All values that are not contained in given list."""
+  contentType_not_in: [String!]
+
+  """All values less than the given value."""
+  contentType_lt: String
+
+  """All values less than or equal the given value."""
+  contentType_lte: String
+
+  """All values greater than the given value."""
+  contentType_gt: String
+
+  """All values greater than or equal the given value."""
+  contentType_gte: String
+
+  """All values containing the given string."""
+  contentType_contains: String
+
+  """All values not containing the given string."""
+  contentType_not_contains: String
+
+  """All values starting with the given string."""
+  contentType_starts_with: String
+
+  """All values not starting with the given string."""
+  contentType_not_starts_with: String
+
+  """All values ending with the given string."""
+  contentType_ends_with: String
+
+  """All values not ending with the given string."""
+  contentType_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  secret: String
+
+  """All values that are not equal to given value."""
+  secret_not: String
+
+  """All values that are contained in given list."""
+  secret_in: [String!]
+
+  """All values that are not contained in given list."""
+  secret_not_in: [String!]
+
+  """All values less than the given value."""
+  secret_lt: String
+
+  """All values less than or equal the given value."""
+  secret_lte: String
+
+  """All values greater than the given value."""
+  secret_gt: String
+
+  """All values greater than or equal the given value."""
+  secret_gte: String
+
+  """All values containing the given string."""
+  secret_contains: String
+
+  """All values not containing the given string."""
+  secret_not_contains: String
+
+  """All values starting with the given string."""
+  secret_starts_with: String
+
+  """All values not starting with the given string."""
+  secret_not_starts_with: String
+
+  """All values ending with the given string."""
+  secret_ends_with: String
+
+  """All values not ending with the given string."""
+  secret_not_ends_with: String
+  size: Int
+
+  """All values that are not equal to given value."""
+  size_not: Int
+
+  """All values that are contained in given list."""
+  size_in: [Int!]
+
+  """All values that are not contained in given list."""
+  size_not_in: [Int!]
+
+  """All values less than the given value."""
+  size_lt: Int
+
+  """All values less than or equal the given value."""
+  size_lte: Int
+
+  """All values greater than the given value."""
+  size_gt: Int
+
+  """All values greater than or equal the given value."""
+  size_gte: Int
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  url: String
+
+  """All values that are not equal to given value."""
+  url_not: String
+
+  """All values that are contained in given list."""
+  url_in: [String!]
+
+  """All values that are not contained in given list."""
+  url_not_in: [String!]
+
+  """All values less than the given value."""
+  url_lt: String
+
+  """All values less than or equal the given value."""
+  url_lte: String
+
+  """All values greater than the given value."""
+  url_gt: String
+
+  """All values greater than or equal the given value."""
+  url_gte: String
+
+  """All values containing the given string."""
+  url_contains: String
+
+  """All values not containing the given string."""
+  url_not_contains: String
+
+  """All values starting with the given string."""
+  url_starts_with: String
+
+  """All values not starting with the given string."""
+  url_not_starts_with: String
+
+  """All values ending with the given string."""
+  url_ends_with: String
+
+  """All values not ending with the given string."""
+  url_not_ends_with: String
+}
+
+type FileSubscriptionPayload {
+  mutation: _ModelMutationType!
+  node: File
+  updatedFields: [String!]
+  previousValues: FilePreviousValues
+}
+
+type GolfStats implements Node {
+  avgPoints: String
+  country: String
+  createdAt: DateTime!
+  eventsPlayed: String
+  eventsPlayedActual: String
+  id: ID!
+  lastWeek: Int
+  name: String
+  pointsGained: String
+  pointsLost: String
+  thisWeek: Int
+  totalPoints: String
+}
+
+input GolfStatsFilter {
+  """Logical AND on all given filters."""
+  AND: [GolfStatsFilter!]
+
+  """Logical OR on all given filters."""
+  OR: [GolfStatsFilter!]
+  avgPoints: String
+
+  """All values that are not equal to given value."""
+  avgPoints_not: String
+
+  """All values that are contained in given list."""
+  avgPoints_in: [String!]
+
+  """All values that are not contained in given list."""
+  avgPoints_not_in: [String!]
+
+  """All values less than the given value."""
+  avgPoints_lt: String
+
+  """All values less than or equal the given value."""
+  avgPoints_lte: String
+
+  """All values greater than the given value."""
+  avgPoints_gt: String
+
+  """All values greater than or equal the given value."""
+  avgPoints_gte: String
+
+  """All values containing the given string."""
+  avgPoints_contains: String
+
+  """All values not containing the given string."""
+  avgPoints_not_contains: String
+
+  """All values starting with the given string."""
+  avgPoints_starts_with: String
+
+  """All values not starting with the given string."""
+  avgPoints_not_starts_with: String
+
+  """All values ending with the given string."""
+  avgPoints_ends_with: String
+
+  """All values not ending with the given string."""
+  avgPoints_not_ends_with: String
+  country: String
+
+  """All values that are not equal to given value."""
+  country_not: String
+
+  """All values that are contained in given list."""
+  country_in: [String!]
+
+  """All values that are not contained in given list."""
+  country_not_in: [String!]
+
+  """All values less than the given value."""
+  country_lt: String
+
+  """All values less than or equal the given value."""
+  country_lte: String
+
+  """All values greater than the given value."""
+  country_gt: String
+
+  """All values greater than or equal the given value."""
+  country_gte: String
+
+  """All values containing the given string."""
+  country_contains: String
+
+  """All values not containing the given string."""
+  country_not_contains: String
+
+  """All values starting with the given string."""
+  country_starts_with: String
+
+  """All values not starting with the given string."""
+  country_not_starts_with: String
+
+  """All values ending with the given string."""
+  country_ends_with: String
+
+  """All values not ending with the given string."""
+  country_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  eventsPlayed: String
+
+  """All values that are not equal to given value."""
+  eventsPlayed_not: String
+
+  """All values that are contained in given list."""
+  eventsPlayed_in: [String!]
+
+  """All values that are not contained in given list."""
+  eventsPlayed_not_in: [String!]
+
+  """All values less than the given value."""
+  eventsPlayed_lt: String
+
+  """All values less than or equal the given value."""
+  eventsPlayed_lte: String
+
+  """All values greater than the given value."""
+  eventsPlayed_gt: String
+
+  """All values greater than or equal the given value."""
+  eventsPlayed_gte: String
+
+  """All values containing the given string."""
+  eventsPlayed_contains: String
+
+  """All values not containing the given string."""
+  eventsPlayed_not_contains: String
+
+  """All values starting with the given string."""
+  eventsPlayed_starts_with: String
+
+  """All values not starting with the given string."""
+  eventsPlayed_not_starts_with: String
+
+  """All values ending with the given string."""
+  eventsPlayed_ends_with: String
+
+  """All values not ending with the given string."""
+  eventsPlayed_not_ends_with: String
+  eventsPlayedActual: String
+
+  """All values that are not equal to given value."""
+  eventsPlayedActual_not: String
+
+  """All values that are contained in given list."""
+  eventsPlayedActual_in: [String!]
+
+  """All values that are not contained in given list."""
+  eventsPlayedActual_not_in: [String!]
+
+  """All values less than the given value."""
+  eventsPlayedActual_lt: String
+
+  """All values less than or equal the given value."""
+  eventsPlayedActual_lte: String
+
+  """All values greater than the given value."""
+  eventsPlayedActual_gt: String
+
+  """All values greater than or equal the given value."""
+  eventsPlayedActual_gte: String
+
+  """All values containing the given string."""
+  eventsPlayedActual_contains: String
+
+  """All values not containing the given string."""
+  eventsPlayedActual_not_contains: String
+
+  """All values starting with the given string."""
+  eventsPlayedActual_starts_with: String
+
+  """All values not starting with the given string."""
+  eventsPlayedActual_not_starts_with: String
+
+  """All values ending with the given string."""
+  eventsPlayedActual_ends_with: String
+
+  """All values not ending with the given string."""
+  eventsPlayedActual_not_ends_with: String
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  lastWeek: Int
+
+  """All values that are not equal to given value."""
+  lastWeek_not: Int
+
+  """All values that are contained in given list."""
+  lastWeek_in: [Int!]
+
+  """All values that are not contained in given list."""
+  lastWeek_not_in: [Int!]
+
+  """All values less than the given value."""
+  lastWeek_lt: Int
+
+  """All values less than or equal the given value."""
+  lastWeek_lte: Int
+
+  """All values greater than the given value."""
+  lastWeek_gt: Int
+
+  """All values greater than or equal the given value."""
+  lastWeek_gte: Int
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  pointsGained: String
+
+  """All values that are not equal to given value."""
+  pointsGained_not: String
+
+  """All values that are contained in given list."""
+  pointsGained_in: [String!]
+
+  """All values that are not contained in given list."""
+  pointsGained_not_in: [String!]
+
+  """All values less than the given value."""
+  pointsGained_lt: String
+
+  """All values less than or equal the given value."""
+  pointsGained_lte: String
+
+  """All values greater than the given value."""
+  pointsGained_gt: String
+
+  """All values greater than or equal the given value."""
+  pointsGained_gte: String
+
+  """All values containing the given string."""
+  pointsGained_contains: String
+
+  """All values not containing the given string."""
+  pointsGained_not_contains: String
+
+  """All values starting with the given string."""
+  pointsGained_starts_with: String
+
+  """All values not starting with the given string."""
+  pointsGained_not_starts_with: String
+
+  """All values ending with the given string."""
+  pointsGained_ends_with: String
+
+  """All values not ending with the given string."""
+  pointsGained_not_ends_with: String
+  pointsLost: String
+
+  """All values that are not equal to given value."""
+  pointsLost_not: String
+
+  """All values that are contained in given list."""
+  pointsLost_in: [String!]
+
+  """All values that are not contained in given list."""
+  pointsLost_not_in: [String!]
+
+  """All values less than the given value."""
+  pointsLost_lt: String
+
+  """All values less than or equal the given value."""
+  pointsLost_lte: String
+
+  """All values greater than the given value."""
+  pointsLost_gt: String
+
+  """All values greater than or equal the given value."""
+  pointsLost_gte: String
+
+  """All values containing the given string."""
+  pointsLost_contains: String
+
+  """All values not containing the given string."""
+  pointsLost_not_contains: String
+
+  """All values starting with the given string."""
+  pointsLost_starts_with: String
+
+  """All values not starting with the given string."""
+  pointsLost_not_starts_with: String
+
+  """All values ending with the given string."""
+  pointsLost_ends_with: String
+
+  """All values not ending with the given string."""
+  pointsLost_not_ends_with: String
+  thisWeek: Int
+
+  """All values that are not equal to given value."""
+  thisWeek_not: Int
+
+  """All values that are contained in given list."""
+  thisWeek_in: [Int!]
+
+  """All values that are not contained in given list."""
+  thisWeek_not_in: [Int!]
+
+  """All values less than the given value."""
+  thisWeek_lt: Int
+
+  """All values less than or equal the given value."""
+  thisWeek_lte: Int
+
+  """All values greater than the given value."""
+  thisWeek_gt: Int
+
+  """All values greater than or equal the given value."""
+  thisWeek_gte: Int
+  totalPoints: String
+
+  """All values that are not equal to given value."""
+  totalPoints_not: String
+
+  """All values that are contained in given list."""
+  totalPoints_in: [String!]
+
+  """All values that are not contained in given list."""
+  totalPoints_not_in: [String!]
+
+  """All values less than the given value."""
+  totalPoints_lt: String
+
+  """All values less than or equal the given value."""
+  totalPoints_lte: String
+
+  """All values greater than the given value."""
+  totalPoints_gt: String
+
+  """All values greater than or equal the given value."""
+  totalPoints_gte: String
+
+  """All values containing the given string."""
+  totalPoints_contains: String
+
+  """All values not containing the given string."""
+  totalPoints_not_contains: String
+
+  """All values starting with the given string."""
+  totalPoints_starts_with: String
+
+  """All values not starting with the given string."""
+  totalPoints_not_starts_with: String
+
+  """All values ending with the given string."""
+  totalPoints_ends_with: String
+
+  """All values not ending with the given string."""
+  totalPoints_not_ends_with: String
+}
+
+enum GolfStatsOrderBy {
+  avgPoints_ASC
+  avgPoints_DESC
+  country_ASC
+  country_DESC
+  createdAt_ASC
+  createdAt_DESC
+  eventsPlayed_ASC
+  eventsPlayed_DESC
+  eventsPlayedActual_ASC
+  eventsPlayedActual_DESC
+  id_ASC
+  id_DESC
+  lastWeek_ASC
+  lastWeek_DESC
+  name_ASC
+  name_DESC
+  pointsGained_ASC
+  pointsGained_DESC
+  pointsLost_ASC
+  pointsLost_DESC
+  thisWeek_ASC
+  thisWeek_DESC
+  totalPoints_ASC
+  totalPoints_DESC
+}
+
+type GolfStatsPreviousValues {
+  avgPoints: String
+  country: String
+  createdAt: DateTime!
+  eventsPlayed: String
+  eventsPlayedActual: String
+  id: ID!
+  lastWeek: Int
+  name: String
+  pointsGained: String
+  pointsLost: String
+  thisWeek: Int
+  totalPoints: String
+}
+
+input GolfStatsSubscriptionFilter {
+  """Logical AND on all given filters."""
+  AND: [GolfStatsSubscriptionFilter!]
+
+  """Logical OR on all given filters."""
+  OR: [GolfStatsSubscriptionFilter!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [_ModelMutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: GolfStatsSubscriptionFilterNode
+}
+
+input GolfStatsSubscriptionFilterNode {
+  avgPoints: String
+
+  """All values that are not equal to given value."""
+  avgPoints_not: String
+
+  """All values that are contained in given list."""
+  avgPoints_in: [String!]
+
+  """All values that are not contained in given list."""
+  avgPoints_not_in: [String!]
+
+  """All values less than the given value."""
+  avgPoints_lt: String
+
+  """All values less than or equal the given value."""
+  avgPoints_lte: String
+
+  """All values greater than the given value."""
+  avgPoints_gt: String
+
+  """All values greater than or equal the given value."""
+  avgPoints_gte: String
+
+  """All values containing the given string."""
+  avgPoints_contains: String
+
+  """All values not containing the given string."""
+  avgPoints_not_contains: String
+
+  """All values starting with the given string."""
+  avgPoints_starts_with: String
+
+  """All values not starting with the given string."""
+  avgPoints_not_starts_with: String
+
+  """All values ending with the given string."""
+  avgPoints_ends_with: String
+
+  """All values not ending with the given string."""
+  avgPoints_not_ends_with: String
+  country: String
+
+  """All values that are not equal to given value."""
+  country_not: String
+
+  """All values that are contained in given list."""
+  country_in: [String!]
+
+  """All values that are not contained in given list."""
+  country_not_in: [String!]
+
+  """All values less than the given value."""
+  country_lt: String
+
+  """All values less than or equal the given value."""
+  country_lte: String
+
+  """All values greater than the given value."""
+  country_gt: String
+
+  """All values greater than or equal the given value."""
+  country_gte: String
+
+  """All values containing the given string."""
+  country_contains: String
+
+  """All values not containing the given string."""
+  country_not_contains: String
+
+  """All values starting with the given string."""
+  country_starts_with: String
+
+  """All values not starting with the given string."""
+  country_not_starts_with: String
+
+  """All values ending with the given string."""
+  country_ends_with: String
+
+  """All values not ending with the given string."""
+  country_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  eventsPlayed: String
+
+  """All values that are not equal to given value."""
+  eventsPlayed_not: String
+
+  """All values that are contained in given list."""
+  eventsPlayed_in: [String!]
+
+  """All values that are not contained in given list."""
+  eventsPlayed_not_in: [String!]
+
+  """All values less than the given value."""
+  eventsPlayed_lt: String
+
+  """All values less than or equal the given value."""
+  eventsPlayed_lte: String
+
+  """All values greater than the given value."""
+  eventsPlayed_gt: String
+
+  """All values greater than or equal the given value."""
+  eventsPlayed_gte: String
+
+  """All values containing the given string."""
+  eventsPlayed_contains: String
+
+  """All values not containing the given string."""
+  eventsPlayed_not_contains: String
+
+  """All values starting with the given string."""
+  eventsPlayed_starts_with: String
+
+  """All values not starting with the given string."""
+  eventsPlayed_not_starts_with: String
+
+  """All values ending with the given string."""
+  eventsPlayed_ends_with: String
+
+  """All values not ending with the given string."""
+  eventsPlayed_not_ends_with: String
+  eventsPlayedActual: String
+
+  """All values that are not equal to given value."""
+  eventsPlayedActual_not: String
+
+  """All values that are contained in given list."""
+  eventsPlayedActual_in: [String!]
+
+  """All values that are not contained in given list."""
+  eventsPlayedActual_not_in: [String!]
+
+  """All values less than the given value."""
+  eventsPlayedActual_lt: String
+
+  """All values less than or equal the given value."""
+  eventsPlayedActual_lte: String
+
+  """All values greater than the given value."""
+  eventsPlayedActual_gt: String
+
+  """All values greater than or equal the given value."""
+  eventsPlayedActual_gte: String
+
+  """All values containing the given string."""
+  eventsPlayedActual_contains: String
+
+  """All values not containing the given string."""
+  eventsPlayedActual_not_contains: String
+
+  """All values starting with the given string."""
+  eventsPlayedActual_starts_with: String
+
+  """All values not starting with the given string."""
+  eventsPlayedActual_not_starts_with: String
+
+  """All values ending with the given string."""
+  eventsPlayedActual_ends_with: String
+
+  """All values not ending with the given string."""
+  eventsPlayedActual_not_ends_with: String
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  lastWeek: Int
+
+  """All values that are not equal to given value."""
+  lastWeek_not: Int
+
+  """All values that are contained in given list."""
+  lastWeek_in: [Int!]
+
+  """All values that are not contained in given list."""
+  lastWeek_not_in: [Int!]
+
+  """All values less than the given value."""
+  lastWeek_lt: Int
+
+  """All values less than or equal the given value."""
+  lastWeek_lte: Int
+
+  """All values greater than the given value."""
+  lastWeek_gt: Int
+
+  """All values greater than or equal the given value."""
+  lastWeek_gte: Int
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  pointsGained: String
+
+  """All values that are not equal to given value."""
+  pointsGained_not: String
+
+  """All values that are contained in given list."""
+  pointsGained_in: [String!]
+
+  """All values that are not contained in given list."""
+  pointsGained_not_in: [String!]
+
+  """All values less than the given value."""
+  pointsGained_lt: String
+
+  """All values less than or equal the given value."""
+  pointsGained_lte: String
+
+  """All values greater than the given value."""
+  pointsGained_gt: String
+
+  """All values greater than or equal the given value."""
+  pointsGained_gte: String
+
+  """All values containing the given string."""
+  pointsGained_contains: String
+
+  """All values not containing the given string."""
+  pointsGained_not_contains: String
+
+  """All values starting with the given string."""
+  pointsGained_starts_with: String
+
+  """All values not starting with the given string."""
+  pointsGained_not_starts_with: String
+
+  """All values ending with the given string."""
+  pointsGained_ends_with: String
+
+  """All values not ending with the given string."""
+  pointsGained_not_ends_with: String
+  pointsLost: String
+
+  """All values that are not equal to given value."""
+  pointsLost_not: String
+
+  """All values that are contained in given list."""
+  pointsLost_in: [String!]
+
+  """All values that are not contained in given list."""
+  pointsLost_not_in: [String!]
+
+  """All values less than the given value."""
+  pointsLost_lt: String
+
+  """All values less than or equal the given value."""
+  pointsLost_lte: String
+
+  """All values greater than the given value."""
+  pointsLost_gt: String
+
+  """All values greater than or equal the given value."""
+  pointsLost_gte: String
+
+  """All values containing the given string."""
+  pointsLost_contains: String
+
+  """All values not containing the given string."""
+  pointsLost_not_contains: String
+
+  """All values starting with the given string."""
+  pointsLost_starts_with: String
+
+  """All values not starting with the given string."""
+  pointsLost_not_starts_with: String
+
+  """All values ending with the given string."""
+  pointsLost_ends_with: String
+
+  """All values not ending with the given string."""
+  pointsLost_not_ends_with: String
+  thisWeek: Int
+
+  """All values that are not equal to given value."""
+  thisWeek_not: Int
+
+  """All values that are contained in given list."""
+  thisWeek_in: [Int!]
+
+  """All values that are not contained in given list."""
+  thisWeek_not_in: [Int!]
+
+  """All values less than the given value."""
+  thisWeek_lt: Int
+
+  """All values less than or equal the given value."""
+  thisWeek_lte: Int
+
+  """All values greater than the given value."""
+  thisWeek_gt: Int
+
+  """All values greater than or equal the given value."""
+  thisWeek_gte: Int
+  totalPoints: String
+
+  """All values that are not equal to given value."""
+  totalPoints_not: String
+
+  """All values that are contained in given list."""
+  totalPoints_in: [String!]
+
+  """All values that are not contained in given list."""
+  totalPoints_not_in: [String!]
+
+  """All values less than the given value."""
+  totalPoints_lt: String
+
+  """All values less than or equal the given value."""
+  totalPoints_lte: String
+
+  """All values greater than the given value."""
+  totalPoints_gt: String
+
+  """All values greater than or equal the given value."""
+  totalPoints_gte: String
+
+  """All values containing the given string."""
+  totalPoints_contains: String
+
+  """All values not containing the given string."""
+  totalPoints_not_contains: String
+
+  """All values starting with the given string."""
+  totalPoints_starts_with: String
+
+  """All values not starting with the given string."""
+  totalPoints_not_starts_with: String
+
+  """All values ending with the given string."""
+  totalPoints_ends_with: String
+
+  """All values not ending with the given string."""
+  totalPoints_not_ends_with: String
+}
+
+type GolfStatsSubscriptionPayload {
+  mutation: _ModelMutationType!
+  node: GolfStats
+  updatedFields: [String!]
+  previousValues: GolfStatsPreviousValues
+}
+
+input InvokeFunctionInput {
+  name: String!
+  input: String!
+  clientMutationId: String
+}
+
+type InvokeFunctionPayload {
+  result: String!
+  clientMutationId: String
+}
+
+"""Raw JSON value"""
+scalar Json
+
+type League implements Node {
+  autoCreate: Boolean!
+  contests(filter: ContestFilter, orderBy: ContestOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [Contest!]
+  createdAt: DateTime!
+  createdBy(filter: UserFilter): User!
+  defaultBuyIn: Int!
+  end: DateTime
+  id: ID!
+  leagueName: String!
+  members(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  sports: [String!]
+  start: DateTime
+
+  """Meta information about the query."""
+  _contestsMeta(filter: ContestFilter, orderBy: ContestOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+
+  """Meta information about the query."""
+  _membersMeta(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+}
+
+input LeaguecontestsContest {
+  buyIn: Int
+  contestName: String
+  end: DateTime
+  limitEntries: Boolean
+  numberOfEntries: Int
+  payout: String
+  places: [String!]
+  scoringFormats: [Json!]
+  sideBets: Boolean
+  sports: [String!]
+  start: DateTime
+  entriesIds: [ID!]
+  entries: [ContestentriesEntry!]
+  eventsIds: [ID!]
+  events: [ContesteventsEvent!]
+}
+
+input LeagueFilter {
+  """Logical AND on all given filters."""
+  AND: [LeagueFilter!]
+
+  """Logical OR on all given filters."""
+  OR: [LeagueFilter!]
+  autoCreate: Boolean
+
+  """All values that are not equal to given value."""
+  autoCreate_not: Boolean
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  defaultBuyIn: Int
+
+  """All values that are not equal to given value."""
+  defaultBuyIn_not: Int
+
+  """All values that are contained in given list."""
+  defaultBuyIn_in: [Int!]
+
+  """All values that are not contained in given list."""
+  defaultBuyIn_not_in: [Int!]
+
+  """All values less than the given value."""
+  defaultBuyIn_lt: Int
+
+  """All values less than or equal the given value."""
+  defaultBuyIn_lte: Int
+
+  """All values greater than the given value."""
+  defaultBuyIn_gt: Int
+
+  """All values greater than or equal the given value."""
+  defaultBuyIn_gte: Int
+  end: DateTime
+
+  """All values that are not equal to given value."""
+  end_not: DateTime
+
+  """All values that are contained in given list."""
+  end_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  end_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  end_lt: DateTime
+
+  """All values less than or equal the given value."""
+  end_lte: DateTime
+
+  """All values greater than the given value."""
+  end_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  end_gte: DateTime
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  leagueName: String
+
+  """All values that are not equal to given value."""
+  leagueName_not: String
+
+  """All values that are contained in given list."""
+  leagueName_in: [String!]
+
+  """All values that are not contained in given list."""
+  leagueName_not_in: [String!]
+
+  """All values less than the given value."""
+  leagueName_lt: String
+
+  """All values less than or equal the given value."""
+  leagueName_lte: String
+
+  """All values greater than the given value."""
+  leagueName_gt: String
+
+  """All values greater than or equal the given value."""
+  leagueName_gte: String
+
+  """All values containing the given string."""
+  leagueName_contains: String
+
+  """All values not containing the given string."""
+  leagueName_not_contains: String
+
+  """All values starting with the given string."""
+  leagueName_starts_with: String
+
+  """All values not starting with the given string."""
+  leagueName_not_starts_with: String
+
+  """All values ending with the given string."""
+  leagueName_ends_with: String
+
+  """All values not ending with the given string."""
+  leagueName_not_ends_with: String
+  start: DateTime
+
+  """All values that are not equal to given value."""
+  start_not: DateTime
+
+  """All values that are contained in given list."""
+  start_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  start_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  start_lt: DateTime
+
+  """All values less than or equal the given value."""
+  start_lte: DateTime
+
+  """All values greater than the given value."""
+  start_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  start_gte: DateTime
+  contests_every: ContestFilter
+  contests_some: ContestFilter
+  contests_none: ContestFilter
+  createdBy: UserFilter
+  members_every: UserFilter
+  members_some: UserFilter
+  members_none: UserFilter
+}
+
+enum LeagueOrderBy {
+  autoCreate_ASC
+  autoCreate_DESC
+  createdAt_ASC
+  createdAt_DESC
+  defaultBuyIn_ASC
+  defaultBuyIn_DESC
+  end_ASC
+  end_DESC
+  id_ASC
+  id_DESC
+  leagueName_ASC
+  leagueName_DESC
+  start_ASC
+  start_DESC
+}
+
+type LeaguePreviousValues {
+  autoCreate: Boolean!
+  createdAt: DateTime!
+  defaultBuyIn: Int!
+  end: DateTime
+  id: ID!
+  leagueName: String!
+  sports: [String!]
+  start: DateTime
+}
+
+input LeagueSubscriptionFilter {
+  """Logical AND on all given filters."""
+  AND: [LeagueSubscriptionFilter!]
+
+  """Logical OR on all given filters."""
+  OR: [LeagueSubscriptionFilter!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [_ModelMutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: LeagueSubscriptionFilterNode
+}
+
+input LeagueSubscriptionFilterNode {
+  autoCreate: Boolean
+
+  """All values that are not equal to given value."""
+  autoCreate_not: Boolean
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  defaultBuyIn: Int
+
+  """All values that are not equal to given value."""
+  defaultBuyIn_not: Int
+
+  """All values that are contained in given list."""
+  defaultBuyIn_in: [Int!]
+
+  """All values that are not contained in given list."""
+  defaultBuyIn_not_in: [Int!]
+
+  """All values less than the given value."""
+  defaultBuyIn_lt: Int
+
+  """All values less than or equal the given value."""
+  defaultBuyIn_lte: Int
+
+  """All values greater than the given value."""
+  defaultBuyIn_gt: Int
+
+  """All values greater than or equal the given value."""
+  defaultBuyIn_gte: Int
+  end: DateTime
+
+  """All values that are not equal to given value."""
+  end_not: DateTime
+
+  """All values that are contained in given list."""
+  end_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  end_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  end_lt: DateTime
+
+  """All values less than or equal the given value."""
+  end_lte: DateTime
+
+  """All values greater than the given value."""
+  end_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  end_gte: DateTime
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  leagueName: String
+
+  """All values that are not equal to given value."""
+  leagueName_not: String
+
+  """All values that are contained in given list."""
+  leagueName_in: [String!]
+
+  """All values that are not contained in given list."""
+  leagueName_not_in: [String!]
+
+  """All values less than the given value."""
+  leagueName_lt: String
+
+  """All values less than or equal the given value."""
+  leagueName_lte: String
+
+  """All values greater than the given value."""
+  leagueName_gt: String
+
+  """All values greater than or equal the given value."""
+  leagueName_gte: String
+
+  """All values containing the given string."""
+  leagueName_contains: String
+
+  """All values not containing the given string."""
+  leagueName_not_contains: String
+
+  """All values starting with the given string."""
+  leagueName_starts_with: String
+
+  """All values not starting with the given string."""
+  leagueName_not_starts_with: String
+
+  """All values ending with the given string."""
+  leagueName_ends_with: String
+
+  """All values not ending with the given string."""
+  leagueName_not_ends_with: String
+  start: DateTime
+
+  """All values that are not equal to given value."""
+  start_not: DateTime
+
+  """All values that are contained in given list."""
+  start_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  start_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  start_lt: DateTime
+
+  """All values less than or equal the given value."""
+  start_lte: DateTime
+
+  """All values greater than the given value."""
+  start_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  start_gte: DateTime
+  contests_every: ContestFilter
+  contests_some: ContestFilter
+  contests_none: ContestFilter
+  createdBy: UserFilter
+  members_every: UserFilter
+  members_some: UserFilter
+  members_none: UserFilter
+}
+
+type LeagueSubscriptionPayload {
+  mutation: _ModelMutationType!
+  node: League
+  updatedFields: [String!]
+  previousValues: LeaguePreviousValues
+}
+
+type Mutation {
+  createContest(buyIn: Int, contestName: String, end: DateTime, limitEntries: Boolean, numberOfEntries: Int, payout: String, places: [String!], scoringFormats: [Json!], sideBets: Boolean, sports: [String!], start: DateTime, leagueId: ID, league: ContestleagueLeague, entriesIds: [ID!], entries: [ContestentriesEntry!], eventsIds: [ID!], events: [ContesteventsEvent!]): Contest
+  createEntry(picks: [Json!], contestId: ID, contest: EntrycontestContest, ownerId: ID): Entry
+  createEvent(end: DateTime, leaderboard: Json, name: String, participants: [Json!], sport: String, sportsRadarId: String, start: DateTime, contestsIds: [ID!], contests: [EventcontestsContest!]): Event
+  createFile(name: String!): File
+  createGolfStats(avgPoints: String, country: String, eventsPlayed: String, eventsPlayedActual: String, lastWeek: Int, name: String, pointsGained: String, pointsLost: String, thisWeek: Int, totalPoints: String): GolfStats
+  createLeague(autoCreate: Boolean!, defaultBuyIn: Int!, end: DateTime, leagueName: String!, sports: [String!], start: DateTime, createdById: ID, contestsIds: [ID!], contests: [LeaguecontestsContest!], membersIds: [ID!]): League
+  updateContest(buyIn: Int, contestName: String, end: DateTime, id: ID!, limitEntries: Boolean, numberOfEntries: Int, payout: String, places: [String!], scoringFormats: [Json!], sideBets: Boolean, sports: [String!], start: DateTime, leagueId: ID, league: ContestleagueLeague, entriesIds: [ID!], entries: [ContestentriesEntry!], eventsIds: [ID!], events: [ContesteventsEvent!]): Contest
+  updateEntry(id: ID!, picks: [Json!], contestId: ID, contest: EntrycontestContest, ownerId: ID): Entry
+  updateEvent(end: DateTime, id: ID!, leaderboard: Json, name: String, participants: [Json!], sport: String, sportsRadarId: String, start: DateTime, contestsIds: [ID!], contests: [EventcontestsContest!]): Event
+  updateFile(id: ID!, name: String): File
+  updateGolfStats(avgPoints: String, country: String, eventsPlayed: String, eventsPlayedActual: String, id: ID!, lastWeek: Int, name: String, pointsGained: String, pointsLost: String, thisWeek: Int, totalPoints: String): GolfStats
+  updateLeague(autoCreate: Boolean, defaultBuyIn: Int, end: DateTime, id: ID!, leagueName: String, sports: [String!], start: DateTime, createdById: ID, contestsIds: [ID!], contests: [LeaguecontestsContest!], membersIds: [ID!]): League
+  updateUser(firstName: String, id: ID!, lastName: String, createdIds: [ID!], created: [UsercreatedLeague!], leaguesIds: [ID!], leagues: [UserleaguesLeague!], userEntriesIds: [ID!], userEntries: [UseruserEntriesEntry!]): User
+  updateOrCreateContest(update: UpdateContest!, create: CreateContest!): Contest
+  updateOrCreateEntry(update: UpdateEntry!, create: CreateEntry!): Entry
+  updateOrCreateEvent(update: UpdateEvent!, create: CreateEvent!): Event
+  updateOrCreateFile(update: UpdateFile!, create: CreateFile!): File
+  updateOrCreateGolfStats(update: UpdateGolfStats!, create: CreateGolfStats!): GolfStats
+  updateOrCreateLeague(update: UpdateLeague!, create: CreateLeague!): League
+  updateOrCreateUser(update: UpdateUser!, create: CreateUser!): User
+  deleteContest(id: ID!): Contest
+  deleteEntry(id: ID!): Entry
+  deleteEvent(id: ID!): Event
+  deleteFile(id: ID!): File
+  deleteGolfStats(id: ID!): GolfStats
+  deleteLeague(id: ID!): League
+  deleteUser(id: ID!): User
+  addToContestEntry(entriesEntryId: ID!, contestContestId: ID!): AddToContestEntryPayload
+  addToContestEvents(contestsContestId: ID!, eventsEventId: ID!): AddToContestEventsPayload
+  addToCreatedLeagues(createdLeagueId: ID!, createdByUserId: ID!): AddToCreatedLeaguesPayload
+  addToEntryOwner(userEntriesEntryId: ID!, ownerUserId: ID!): AddToEntryOwnerPayload
+  addToLeagueContests(leagueLeagueId: ID!, contestsContestId: ID!): AddToLeagueContestsPayload
+  addToLeagueMembers(leaguesLeagueId: ID!, membersUserId: ID!): AddToLeagueMembersPayload
+  removeFromContestEntry(entriesEntryId: ID!, contestContestId: ID!): RemoveFromContestEntryPayload
+  removeFromContestEvents(contestsContestId: ID!, eventsEventId: ID!): RemoveFromContestEventsPayload
+  removeFromEntryOwner(userEntriesEntryId: ID!, ownerUserId: ID!): RemoveFromEntryOwnerPayload
+  removeFromLeagueContests(leagueLeagueId: ID!, contestsContestId: ID!): RemoveFromLeagueContestsPayload
+  removeFromLeagueMembers(leaguesLeagueId: ID!, membersUserId: ID!): RemoveFromLeagueMembersPayload
+  signinUser(email: AUTH_PROVIDER_EMAIL): SigninPayload!
+  createUser(firstName: String!, lastName: String!, createdIds: [ID!], created: [UsercreatedLeague!], leaguesIds: [ID!], leagues: [UserleaguesLeague!], userEntriesIds: [ID!], userEntries: [UseruserEntriesEntry!], authProvider: AuthProviderSignupData!): User
+  invokeFunction(input: InvokeFunctionInput!): InvokeFunctionPayload
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+type Query {
+  allContests(filter: ContestFilter, orderBy: ContestOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [Contest!]!
+  allEntries(filter: EntryFilter, orderBy: EntryOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [Entry!]!
+  allEvents(filter: EventFilter, orderBy: EventOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]!
+  allFiles(filter: FileFilter, orderBy: FileOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [File!]!
+  allGolfStatses(filter: GolfStatsFilter, orderBy: GolfStatsOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [GolfStats!]!
+  allLeagues(filter: LeagueFilter, orderBy: LeagueOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [League!]!
+  allUsers(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [User!]!
+  _allContestsMeta(filter: ContestFilter, orderBy: ContestOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+  _allEntriesMeta(filter: EntryFilter, orderBy: EntryOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+  _allEventsMeta(filter: EventFilter, orderBy: EventOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+  _allFilesMeta(filter: FileFilter, orderBy: FileOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+  _allGolfStatsesMeta(filter: GolfStatsFilter, orderBy: GolfStatsOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+  _allLeaguesMeta(filter: LeagueFilter, orderBy: LeagueOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+  _allUsersMeta(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+  Contest(id: ID): Contest
+  Entry(id: ID): Entry
+  Event(id: ID): Event
+  File(id: ID, secret: String, url: String): File
+  GolfStats(id: ID): GolfStats
+  League(id: ID): League
+  User(email: String, id: ID): User
+  user: User
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+}
+
+type RemoveFromContestEntryPayload {
+  contestContest: Contest
+  entriesEntry: Entry
+}
+
+type RemoveFromContestEventsPayload {
+  eventsEvent: Event
+  contestsContest: Contest
+}
+
+type RemoveFromEntryOwnerPayload {
+  ownerUser: User
+  userEntriesEntry: Entry
+}
+
+type RemoveFromLeagueContestsPayload {
+  contestsContest: Contest
+  leagueLeague: League
+}
+
+type RemoveFromLeagueMembersPayload {
+  membersUser: User
+  leaguesLeague: League
+}
+
+"""
+If authentication was successful the payload contains the user and a token. If unsuccessful this payload is null.
+"""
+type SigninPayload {
+  token: String
+  user: User
+}
+
+type Subscription {
+  Contest(filter: ContestSubscriptionFilter): ContestSubscriptionPayload
+  Entry(filter: EntrySubscriptionFilter): EntrySubscriptionPayload
+  Event(filter: EventSubscriptionFilter): EventSubscriptionPayload
+  File(filter: FileSubscriptionFilter): FileSubscriptionPayload
+  GolfStats(filter: GolfStatsSubscriptionFilter): GolfStatsSubscriptionPayload
+  League(filter: LeagueSubscriptionFilter): LeagueSubscriptionPayload
+  User(filter: UserSubscriptionFilter): UserSubscriptionPayload
+}
+
+input UpdateContest {
+  buyIn: Int
+  contestName: String
+  end: DateTime
+  id: ID!
+  limitEntries: Boolean
+  numberOfEntries: Int
+  payout: String
+  places: [String!]
+  scoringFormats: [Json!]
+  sideBets: Boolean
+  sports: [String!]
+  start: DateTime
+  leagueId: ID
+  league: ContestleagueLeague
+  entriesIds: [ID!]
+  entries: [ContestentriesEntry!]
+  eventsIds: [ID!]
+  events: [ContesteventsEvent!]
+}
+
+input UpdateEntry {
+  id: ID!
+  picks: [Json!]
+  contestId: ID
+  contest: EntrycontestContest
+  ownerId: ID
+}
+
+input UpdateEvent {
+  end: DateTime
+  id: ID!
+  leaderboard: Json
+  name: String
+  participants: [Json!]
+  sport: String
+  sportsRadarId: String
+  start: DateTime
+  contestsIds: [ID!]
+  contests: [EventcontestsContest!]
+}
+
+input UpdateFile {
+  id: ID!
+  name: String
+}
+
+input UpdateGolfStats {
+  avgPoints: String
+  country: String
+  eventsPlayed: String
+  eventsPlayedActual: String
+  id: ID!
+  lastWeek: Int
+  name: String
+  pointsGained: String
+  pointsLost: String
+  thisWeek: Int
+  totalPoints: String
+}
+
+input UpdateLeague {
+  autoCreate: Boolean
+  defaultBuyIn: Int
+  end: DateTime
+  id: ID!
+  leagueName: String
+  sports: [String!]
+  start: DateTime
+  createdById: ID
+  contestsIds: [ID!]
+  contests: [LeaguecontestsContest!]
+  membersIds: [ID!]
+}
+
+input UpdateUser {
+  firstName: String
+  id: ID!
+  lastName: String
+  createdIds: [ID!]
+  created: [UsercreatedLeague!]
+  leaguesIds: [ID!]
+  leagues: [UserleaguesLeague!]
+  userEntriesIds: [ID!]
+  userEntries: [UseruserEntriesEntry!]
+}
+
+type User implements Node {
+  created(filter: LeagueFilter, orderBy: LeagueOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [League!]
+  createdAt: DateTime!
+  email: String
+  firstName: String!
+  id: ID!
+  lastName: String!
+  leagues(filter: LeagueFilter, orderBy: LeagueOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [League!]
+  password: String
+  updatedAt: DateTime!
+  userEntries(filter: EntryFilter, orderBy: EntryOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [Entry!]
+
+  """Meta information about the query."""
+  _createdMeta(filter: LeagueFilter, orderBy: LeagueOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+
+  """Meta information about the query."""
+  _leaguesMeta(filter: LeagueFilter, orderBy: LeagueOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+
+  """Meta information about the query."""
+  _userEntriesMeta(filter: EntryFilter, orderBy: EntryOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+}
+
+input UsercreatedLeague {
+  autoCreate: Boolean!
+  defaultBuyIn: Int!
+  end: DateTime
+  leagueName: String!
+  sports: [String!]
+  start: DateTime
+  contestsIds: [ID!]
+  contests: [LeaguecontestsContest!]
+  membersIds: [ID!]
+}
+
+input UserFilter {
+  """Logical AND on all given filters."""
+  AND: [UserFilter!]
+
+  """Logical OR on all given filters."""
+  OR: [UserFilter!]
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  email: String
+
+  """All values that are not equal to given value."""
+  email_not: String
+
+  """All values that are contained in given list."""
+  email_in: [String!]
+
+  """All values that are not contained in given list."""
+  email_not_in: [String!]
+
+  """All values less than the given value."""
+  email_lt: String
+
+  """All values less than or equal the given value."""
+  email_lte: String
+
+  """All values greater than the given value."""
+  email_gt: String
+
+  """All values greater than or equal the given value."""
+  email_gte: String
+
+  """All values containing the given string."""
+  email_contains: String
+
+  """All values not containing the given string."""
+  email_not_contains: String
+
+  """All values starting with the given string."""
+  email_starts_with: String
+
+  """All values not starting with the given string."""
+  email_not_starts_with: String
+
+  """All values ending with the given string."""
+  email_ends_with: String
+
+  """All values not ending with the given string."""
+  email_not_ends_with: String
+  firstName: String
+
+  """All values that are not equal to given value."""
+  firstName_not: String
+
+  """All values that are contained in given list."""
+  firstName_in: [String!]
+
+  """All values that are not contained in given list."""
+  firstName_not_in: [String!]
+
+  """All values less than the given value."""
+  firstName_lt: String
+
+  """All values less than or equal the given value."""
+  firstName_lte: String
+
+  """All values greater than the given value."""
+  firstName_gt: String
+
+  """All values greater than or equal the given value."""
+  firstName_gte: String
+
+  """All values containing the given string."""
+  firstName_contains: String
+
+  """All values not containing the given string."""
+  firstName_not_contains: String
+
+  """All values starting with the given string."""
+  firstName_starts_with: String
+
+  """All values not starting with the given string."""
+  firstName_not_starts_with: String
+
+  """All values ending with the given string."""
+  firstName_ends_with: String
+
+  """All values not ending with the given string."""
+  firstName_not_ends_with: String
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  lastName: String
+
+  """All values that are not equal to given value."""
+  lastName_not: String
+
+  """All values that are contained in given list."""
+  lastName_in: [String!]
+
+  """All values that are not contained in given list."""
+  lastName_not_in: [String!]
+
+  """All values less than the given value."""
+  lastName_lt: String
+
+  """All values less than or equal the given value."""
+  lastName_lte: String
+
+  """All values greater than the given value."""
+  lastName_gt: String
+
+  """All values greater than or equal the given value."""
+  lastName_gte: String
+
+  """All values containing the given string."""
+  lastName_contains: String
+
+  """All values not containing the given string."""
+  lastName_not_contains: String
+
+  """All values starting with the given string."""
+  lastName_starts_with: String
+
+  """All values not starting with the given string."""
+  lastName_not_starts_with: String
+
+  """All values ending with the given string."""
+  lastName_ends_with: String
+
+  """All values not ending with the given string."""
+  lastName_not_ends_with: String
+  password: String
+
+  """All values that are not equal to given value."""
+  password_not: String
+
+  """All values that are contained in given list."""
+  password_in: [String!]
+
+  """All values that are not contained in given list."""
+  password_not_in: [String!]
+
+  """All values less than the given value."""
+  password_lt: String
+
+  """All values less than or equal the given value."""
+  password_lte: String
+
+  """All values greater than the given value."""
+  password_gt: String
+
+  """All values greater than or equal the given value."""
+  password_gte: String
+
+  """All values containing the given string."""
+  password_contains: String
+
+  """All values not containing the given string."""
+  password_not_contains: String
+
+  """All values starting with the given string."""
+  password_starts_with: String
+
+  """All values not starting with the given string."""
+  password_not_starts_with: String
+
+  """All values ending with the given string."""
+  password_ends_with: String
+
+  """All values not ending with the given string."""
+  password_not_ends_with: String
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  created_every: LeagueFilter
+  created_some: LeagueFilter
+  created_none: LeagueFilter
+  leagues_every: LeagueFilter
+  leagues_some: LeagueFilter
+  leagues_none: LeagueFilter
+  userEntries_every: EntryFilter
+  userEntries_some: EntryFilter
+  userEntries_none: EntryFilter
+}
+
+input UserleaguesLeague {
+  autoCreate: Boolean!
+  defaultBuyIn: Int!
+  end: DateTime
+  leagueName: String!
+  sports: [String!]
+  start: DateTime
+  createdById: ID
+  contestsIds: [ID!]
+  contests: [LeaguecontestsContest!]
+  membersIds: [ID!]
+}
+
+enum UserOrderBy {
+  createdAt_ASC
+  createdAt_DESC
+  email_ASC
+  email_DESC
+  firstName_ASC
+  firstName_DESC
+  id_ASC
+  id_DESC
+  lastName_ASC
+  lastName_DESC
+  password_ASC
+  password_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type UserPreviousValues {
+  createdAt: DateTime!
+  email: String
+  firstName: String!
+  id: ID!
+  lastName: String!
+  password: String
+  updatedAt: DateTime!
+}
+
+input UserSubscriptionFilter {
+  """Logical AND on all given filters."""
+  AND: [UserSubscriptionFilter!]
+
+  """Logical OR on all given filters."""
+  OR: [UserSubscriptionFilter!]
+
+  """The subscription event gets dispatched when it's listed in mutation_in"""
+  mutation_in: [_ModelMutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: UserSubscriptionFilterNode
+}
+
+input UserSubscriptionFilterNode {
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  email: String
+
+  """All values that are not equal to given value."""
+  email_not: String
+
+  """All values that are contained in given list."""
+  email_in: [String!]
+
+  """All values that are not contained in given list."""
+  email_not_in: [String!]
+
+  """All values less than the given value."""
+  email_lt: String
+
+  """All values less than or equal the given value."""
+  email_lte: String
+
+  """All values greater than the given value."""
+  email_gt: String
+
+  """All values greater than or equal the given value."""
+  email_gte: String
+
+  """All values containing the given string."""
+  email_contains: String
+
+  """All values not containing the given string."""
+  email_not_contains: String
+
+  """All values starting with the given string."""
+  email_starts_with: String
+
+  """All values not starting with the given string."""
+  email_not_starts_with: String
+
+  """All values ending with the given string."""
+  email_ends_with: String
+
+  """All values not ending with the given string."""
+  email_not_ends_with: String
+  firstName: String
+
+  """All values that are not equal to given value."""
+  firstName_not: String
+
+  """All values that are contained in given list."""
+  firstName_in: [String!]
+
+  """All values that are not contained in given list."""
+  firstName_not_in: [String!]
+
+  """All values less than the given value."""
+  firstName_lt: String
+
+  """All values less than or equal the given value."""
+  firstName_lte: String
+
+  """All values greater than the given value."""
+  firstName_gt: String
+
+  """All values greater than or equal the given value."""
+  firstName_gte: String
+
+  """All values containing the given string."""
+  firstName_contains: String
+
+  """All values not containing the given string."""
+  firstName_not_contains: String
+
+  """All values starting with the given string."""
+  firstName_starts_with: String
+
+  """All values not starting with the given string."""
+  firstName_not_starts_with: String
+
+  """All values ending with the given string."""
+  firstName_ends_with: String
+
+  """All values not ending with the given string."""
+  firstName_not_ends_with: String
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  lastName: String
+
+  """All values that are not equal to given value."""
+  lastName_not: String
+
+  """All values that are contained in given list."""
+  lastName_in: [String!]
+
+  """All values that are not contained in given list."""
+  lastName_not_in: [String!]
+
+  """All values less than the given value."""
+  lastName_lt: String
+
+  """All values less than or equal the given value."""
+  lastName_lte: String
+
+  """All values greater than the given value."""
+  lastName_gt: String
+
+  """All values greater than or equal the given value."""
+  lastName_gte: String
+
+  """All values containing the given string."""
+  lastName_contains: String
+
+  """All values not containing the given string."""
+  lastName_not_contains: String
+
+  """All values starting with the given string."""
+  lastName_starts_with: String
+
+  """All values not starting with the given string."""
+  lastName_not_starts_with: String
+
+  """All values ending with the given string."""
+  lastName_ends_with: String
+
+  """All values not ending with the given string."""
+  lastName_not_ends_with: String
+  password: String
+
+  """All values that are not equal to given value."""
+  password_not: String
+
+  """All values that are contained in given list."""
+  password_in: [String!]
+
+  """All values that are not contained in given list."""
+  password_not_in: [String!]
+
+  """All values less than the given value."""
+  password_lt: String
+
+  """All values less than or equal the given value."""
+  password_lte: String
+
+  """All values greater than the given value."""
+  password_gt: String
+
+  """All values greater than or equal the given value."""
+  password_gte: String
+
+  """All values containing the given string."""
+  password_contains: String
+
+  """All values not containing the given string."""
+  password_not_contains: String
+
+  """All values starting with the given string."""
+  password_starts_with: String
+
+  """All values not starting with the given string."""
+  password_not_starts_with: String
+
+  """All values ending with the given string."""
+  password_ends_with: String
+
+  """All values not ending with the given string."""
+  password_not_ends_with: String
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  created_every: LeagueFilter
+  created_some: LeagueFilter
+  created_none: LeagueFilter
+  leagues_every: LeagueFilter
+  leagues_some: LeagueFilter
+  leagues_none: LeagueFilter
+  userEntries_every: EntryFilter
+  userEntries_some: EntryFilter
+  userEntries_none: EntryFilter
+}
+
+type UserSubscriptionPayload {
+  mutation: _ModelMutationType!
+  node: User
+  updatedFields: [String!]
+  previousValues: UserPreviousValues
+}
+
+input UseruserEntriesEntry {
+  picks: [Json!]
+  contestId: ID
+  contest: EntrycontestContest
+}

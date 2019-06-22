@@ -1,0 +1,18 @@
+mutation createLeague(
+  $leagueName: String!
+  $sports: [String!]
+  $defaultBuyIn: Int!
+  $autoCreate: Boolean!
+  $createdById: ID!
+) {
+  createLeague(
+    leagueName: $leagueName
+    sports: $sports
+    membersIds: [$createdById],
+    defaultBuyIn: $defaultBuyIn
+    autoCreate: $autoCreate
+    createdById: $createdById
+  ) {
+    id
+  }
+}

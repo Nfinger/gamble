@@ -1,0 +1,19 @@
+query getUser(
+  $userId: ID!
+) {
+  User(id: $userId) {
+    id
+    email
+    firstName
+    lastName
+    leagues {
+      id
+      leagueName
+      contests {
+        id
+        start
+        end
+      }
+    }
+  }
+}

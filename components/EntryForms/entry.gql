@@ -1,0 +1,7 @@
+query getStats {
+  allGolfStatses {
+    id
+    name
+    thisWeek
+  }
+}

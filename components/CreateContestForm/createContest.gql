@@ -1,0 +1,52 @@
+query getContestInfo($leagueID: ID!, $now: DateTime) {
+
+  allEvents(filter: { start_gte: $now }) {
+    id
+    name
+    start
+    end
+    sport
+  }
+
+  League(id: $leagueID) {
+    id
+    sports 
+    leagueName
+    defaultBuyIn
+  }
+}
+
+mutation createContest(
+  $contestName: String!,
+  $eventsIds: [ID!]!,
+  $start: DateTime,
+  $leagueId: ID!,
+  $end: DateTime,
+  $buyIn: Int,
+  $payout: String,
+  $places: [String!],
+  $sport: [String!],
+  $limitEntries: Boolean,
+  $numberOfEntries: Int,
+  $scoringFormats: Json,
+  $sideBets: Boolean
+) {
+  createContest(
+    contestName: $contestName
+    eventsIds: $eventsIds
+    entries: []
+    start: $start
+    leagueId: $leagueId,
+    sport: $sport,
+    buyIn: $buyIn,
+    payout: $payout,
+    places: $places,
+    limitEntries: $limitEntries,
+    numberOfEntries: $numberOfEntries,
+    scoringFormats: $scoringFormats,
+    sideBets: $sideBets,
+    end: $end
+  ) {
+    id
+  }
+}
