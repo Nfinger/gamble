@@ -60,9 +60,10 @@ library.add(faAngleLeft, faAngleRight, faSearch, faSlidersH);
 const Sidebar = ({
   reduxState: {
     auth: { user: { firstName, lastName, leagues = [] } } = {}
-  } = {}
+  } = {},
+  ...rest
 }: Props) => {
-  console.log('DO I HAVE A USER?', { firstName, lastName, leagues });
+  console.log('DO I HAVE A USER?', rest);
   routes[0].children = leagues.map(({ id, contests = [], leagueName }) => {
     const activeContests = contests.filter(
       contest => isPast(contest.start) && !isPast(contest.end)
