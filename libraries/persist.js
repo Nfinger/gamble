@@ -1,6 +1,6 @@
 // @flow
-import { parseCookies } from 'nookies';
-import Cookie from 'js-cookie';
+import { parseCookies, setCookie, destroyCookie } from 'nookies';
+// import Cookie from 'js-cookie';
 
 export default class persist {
   static get ACCESS_TOKEN_KEY(): string {
@@ -12,12 +12,12 @@ export default class persist {
   }
 
   static async willSetAccessToken(value: string) {
-    return Cookie.set('authToken', value, {
+    return setCookie({}, 'authToken', value, {
       expires: 999999999999999999999999
     });
   }
 
   static async willRemoveAccessToken() {
-    return Cookie.remove('authToken');
+    return destroyCookie('authToken');
   }
 }
