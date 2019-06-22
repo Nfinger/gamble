@@ -42,7 +42,7 @@ import connect from './store';
 import { Link } from '../../routes';
 
 type Props = {
-  reduxState: Object,
+  user: Object,
   loading: Boolean
 };
 
@@ -59,14 +59,10 @@ const routes = [
 library.add(faAngleLeft, faAngleRight, faSearch, faSlidersH);
 
 const Sidebar = ({
-  reduxState: {
-    auth: { user: { firstName, lastName, leagues = [] } } = {}
-  } = {},
-  loading,
-  ...rest
+  user: { firstName, lastName, leagues = [] },
+  loading
 }: Props) => {
   if (loading) return <>Loading</>;
-  console.log('DO I HAVE A USER?', rest);
   routes[0].children = leagues.map(({ id, contests = [], leagueName }) => {
     const activeContests = contests.filter(
       contest => isPast(contest.start) && !isPast(contest.end)
@@ -173,7 +169,7 @@ const Sidebar = ({
 };
 
 Sidebar.propTypes = {
-  reduxState: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired
 };
 
 export default connect(Sidebar);

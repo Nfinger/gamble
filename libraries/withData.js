@@ -47,6 +47,7 @@ export default (
     };
 
     state = {
+      user: {},
       reduxState: {}
     };
 
@@ -110,23 +111,17 @@ export default (
       };
     }
 
-    async componentDidMount() {
-      console.log('Im in the Component did mount');
+    async componentWillMount() {
       let token = await persist.willGetAccessToken({});
-      console.log('I just checked the cookies for the token', token);
       token = token.accessToken;
-      console.log('I just checked for the access token key');
       const { userId } = token ? jwtToken(token) : {};
-      console.log('I just decoded the token');
       const { data: { User = {} } = {} } = userId
         ? await this.apolloClient.query({
             query: getUser,
             variables: { userId }
           })
         : { data: { User: {} } };
-      console.log('I just got the user from a query', User);
-      this.props.reduxState.auth = { user: User };
-      this.reduxStore = reduxStore(this.props.reduxState);
+      this.setState({ user: User });
     }
 
     apolloClient: Object;
@@ -137,7 +132,7 @@ export default (
       return (
         <ApolloProvider client={this.apolloClient}>
           <ReduxProvider store={this.reduxStore}>
-            <Component {...this.props} />
+            <Component user={this.state.user} {...this.props} />
           </ReduxProvider>
         </ApolloProvider>
       );
