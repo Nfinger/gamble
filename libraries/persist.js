@@ -12,7 +12,9 @@ export default class persist {
   }
 
   static async willSetAccessToken(value: string) {
-    return Cookie.set('authToken', value);
+    return Cookie.set('authToken', value, {
+      expires: 999999999999999999999999
+    });
   }
 
   static async willRemoveAccessToken() {
