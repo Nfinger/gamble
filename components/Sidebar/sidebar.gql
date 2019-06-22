@@ -1,17 +1,5 @@
-query getLeaguesByUserID (
-  $userId: ID!
-) {
-  allLeagues(filter: {
-    members_every: {
-      id: $userId
-    }
-  }) {
-    id,
-    leagueName
-    contests {
-      id
-      start
-      end
-    }
+query {
+  allLeagues {
+    id
   }
 }
