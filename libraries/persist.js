@@ -6,21 +6,21 @@ import { addMonths } from 'date-fns';
 
 export default class persist {
   static get ACCESS_TOKEN_KEY(): string {
-    return 'authToken';
+    return 'accessToken';
   }
 
   static async willGetAccessToken(ctx) {
-    return parseCookies(ctx, 'authToken');
+    return parseCookies(ctx, 'accessToken');
   }
 
   static async willSetAccessToken(value: string) {
-    return setCookie({}, 'authToken', value, {
+    return setCookie({}, 'accessToken', value, {
       path: '/',
       expires: addMonths(new Date(), 12)
     });
   }
 
   static async willRemoveAccessToken() {
-    return cookie.remove('authToken');
+    return cookie.remove('accessToken');
   }
 }
