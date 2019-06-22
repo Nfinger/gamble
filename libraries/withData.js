@@ -112,8 +112,10 @@ export default (
 
     async componentDidMount() {
       console.log('Im in the Component did mount');
-      const token = await persist.willGetAccessToken({}).accessToken;
+      let token = await persist.willGetAccessToken({});
       console.log('I just checked the cookies for the token', token);
+      token = token.accessToken;
+      console.log('I just checked for the access token key');
       const { userId } = token ? jwtToken(token) : {};
       console.log('I just decoded the token');
       const { data: { User = {} } = {} } = userId
