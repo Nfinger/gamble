@@ -34,6 +34,8 @@
     "start": "cross-env NODE_ENV=production node server.js",
     "start:multicore": "cross-env NODE_ENV=production pm2 start server.js -i max --attach",
     "build": "npm run clean-cache && next build",
+    "export": "next export",
+    "deploy": "npm run build && npm run export",
     "clean-cache": "rimraf -rf ./node_modules/.cache",
     "dev": "npm run lint && npm run clean-cache && node server.js",
     "lint": "eslint --fix --ext .js pages components containers libraries server helper_scripts",
