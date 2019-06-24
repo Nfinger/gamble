@@ -3,3 +3,4 @@
 .next/
 node_modules/
 !config.js
+/built-lambda
