@@ -36,3 +36,16 @@ query getLeague($leagueId: ID!) {
     }
   }
 }
+
+subscription MemberJoinSubscription {
+  League(filter: { updatedFields_contains: "members" }) {
+    node {
+      members {
+        id
+        email
+        firstName
+        lastName
+      }
+    }
+  }
+}

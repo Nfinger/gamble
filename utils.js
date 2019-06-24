@@ -1,3 +1,6 @@
+const { Lokka } = require('lokka');
+const { Transport } = require('lokka-transport-http');
+
 export const dateFormat = 'MM/DD/YY';
 
 export const apiToReadable = str => str.split(' ');
@@ -112,3 +115,23 @@ export const toProperCase = text =>
     /\w\S*/g,
     txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
   );
+
+export const success = data => ({
+  statusCode: 200,
+  body: JSON.stringify(data)
+});
+
+export const connect = () => {
+  const client = new Lokka({
+    transport: new Transport(
+      'https://api.graph.cool/simple/v1/cjww5ma3i36ia0106alic88xy',
+      {
+        headers: {
+          authorization:
+            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NjA1MTk5NDYsImNsaWVudElkIjoiY2p3dzVhN3YzMjdtYzAxMzE3anhud2NtZSJ9.xkQUQOeHJ4IvTRT7gM77M60FcMCzWm1lkCc-biSvwRs'
+        }
+      }
+    )
+  });
+  return client;
+};

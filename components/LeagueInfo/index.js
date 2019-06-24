@@ -103,9 +103,11 @@ const LeagueInfo = ({
     ]
   } = {},
   create,
-  socket
+  socket,
+  ...rest
 }: Props) => {
   if (loading) return <>Loading</>;
+  console.log(rest);
   // React Hooks
   const [activeContest, setActiveContest] = useState(contests[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);

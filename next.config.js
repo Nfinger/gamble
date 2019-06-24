@@ -119,12 +119,10 @@ if (process.env.STATIC_EXPORT) {
     };
 
     const { allLeagues } = await client.request(query);
-    console.log(allLeagues);
     allLeagues.forEach(({ id }) => {
-      console.log(id);
       routes[`/league/${id}`] = {
         page: '/league',
-        query: { id }
+        query: { leagueId: id }
       };
     });
 
@@ -135,7 +133,6 @@ if (process.env.STATIC_EXPORT) {
         };
       }
     });
-    console.log(routes);
     return routes;
   };
 }
