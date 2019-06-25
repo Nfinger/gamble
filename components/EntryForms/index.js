@@ -79,7 +79,7 @@ class EntryForms extends React.Component<Props, State> {
     return (
       <div>
         {events.map(event => {
-          const field = event.participants.map(
+          const field = event.json.participants.map(
             ({ firstName, lastName }) => `${firstName} ${lastName}`
           );
           const includes = golf.filter(({ name }) => field.includes(name));
