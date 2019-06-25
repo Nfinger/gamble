@@ -79,7 +79,7 @@ class EntryForms extends React.Component<Props, State> {
     return (
       <div>
         {events.map(event => {
-          const field = event.participants.json.map(
+          const field = event.participants.map(
             ({ firstName, lastName }) => `${firstName} ${lastName}`
           );
           const includes = golf.filter(({ name }) => field.includes(name));
@@ -166,7 +166,7 @@ class EntryForms extends React.Component<Props, State> {
       stats
     } = this.props;
     if (loading) return <>Loading</>;
-    console.log(stats);
+    console.log(events);
     return (
       <div>
         <ModalBody>
