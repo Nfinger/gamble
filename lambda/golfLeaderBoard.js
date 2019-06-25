@@ -13,7 +13,7 @@ export async function handler() {
 
   const query = /* GraphQL */ `
     query getEvent($name: String) {
-      allEvents(filter: { name_eq: $name }) {
+      allEvents(filter: { name: $name }) {
         id
       }
     }
