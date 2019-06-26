@@ -15,3 +15,20 @@ mutation signupUser(
     token
   }
 }
+
+mutation addMember(
+  $leagueId: ID!
+  $userId: ID!
+) {
+  addToLeagueMembers(
+    leaguesLeagueId: $leagueId
+    membersUserId: $userId
+  ) {
+    membersUser {
+      id
+    }
+    leaguesLeague {
+      id
+    }
+  }
+}

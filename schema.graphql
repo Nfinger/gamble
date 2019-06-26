@@ -1,5 +1,5 @@
 # source: https://api.graph.cool/simple/v1/cjww5ma3i36ia0106alic88xy
-# timestamp: Fri Jun 21 2019 12:33:07 GMT-0400 (EDT)
+# timestamp: Tue Jun 25 2019 16:06:10 GMT-0400 (EDT)
 
 enum _ModelMutationType {
   CREATED
@@ -55,6 +55,7 @@ type Contest implements Node {
   buyIn: Int
   contestName: String
   createdAt: DateTime!
+  dummy: String
   end: DateTime
   entries(filter: EntryFilter, orderBy: EntryOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [Entry!]
   events(filter: EventFilter, orderBy: EventOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [Event!]
@@ -64,7 +65,7 @@ type Contest implements Node {
   numberOfEntries: Int
   payout: String
   places: [String!]
-  scoringFormats: [Json!]
+  scoringFormats: Json
   sideBets: Boolean
   sports: [String!]
   start: DateTime
@@ -77,7 +78,9 @@ type Contest implements Node {
 }
 
 input ContestentriesEntry {
+  entryName: String
   picks: [Json!]
+  rank: Int
   ownerId: ID
 }
 
@@ -183,6 +186,46 @@ input ContestFilter {
 
   """All values greater than or equal the given value."""
   createdAt_gte: DateTime
+  dummy: String
+
+  """All values that are not equal to given value."""
+  dummy_not: String
+
+  """All values that are contained in given list."""
+  dummy_in: [String!]
+
+  """All values that are not contained in given list."""
+  dummy_not_in: [String!]
+
+  """All values less than the given value."""
+  dummy_lt: String
+
+  """All values less than or equal the given value."""
+  dummy_lte: String
+
+  """All values greater than the given value."""
+  dummy_gt: String
+
+  """All values greater than or equal the given value."""
+  dummy_gte: String
+
+  """All values containing the given string."""
+  dummy_contains: String
+
+  """All values not containing the given string."""
+  dummy_not_contains: String
+
+  """All values starting with the given string."""
+  dummy_starts_with: String
+
+  """All values not starting with the given string."""
+  dummy_not_starts_with: String
+
+  """All values ending with the given string."""
+  dummy_ends_with: String
+
+  """All values not ending with the given string."""
+  dummy_not_ends_with: String
   end: DateTime
 
   """All values that are not equal to given value."""
@@ -366,6 +409,8 @@ enum ContestOrderBy {
   contestName_DESC
   createdAt_ASC
   createdAt_DESC
+  dummy_ASC
+  dummy_DESC
   end_ASC
   end_DESC
   id_ASC
@@ -376,6 +421,8 @@ enum ContestOrderBy {
   numberOfEntries_DESC
   payout_ASC
   payout_DESC
+  scoringFormats_ASC
+  scoringFormats_DESC
   sideBets_ASC
   sideBets_DESC
   start_ASC
@@ -386,13 +433,14 @@ type ContestPreviousValues {
   buyIn: Int
   contestName: String
   createdAt: DateTime!
+  dummy: String
   end: DateTime
   id: ID!
   limitEntries: Boolean
   numberOfEntries: Int
   payout: String
   places: [String!]
-  scoringFormats: [Json!]
+  scoringFormats: Json
   sideBets: Boolean
   sports: [String!]
   start: DateTime
@@ -510,6 +558,46 @@ input ContestSubscriptionFilterNode {
 
   """All values greater than or equal the given value."""
   createdAt_gte: DateTime
+  dummy: String
+
+  """All values that are not equal to given value."""
+  dummy_not: String
+
+  """All values that are contained in given list."""
+  dummy_in: [String!]
+
+  """All values that are not contained in given list."""
+  dummy_not_in: [String!]
+
+  """All values less than the given value."""
+  dummy_lt: String
+
+  """All values less than or equal the given value."""
+  dummy_lte: String
+
+  """All values greater than the given value."""
+  dummy_gt: String
+
+  """All values greater than or equal the given value."""
+  dummy_gte: String
+
+  """All values containing the given string."""
+  dummy_contains: String
+
+  """All values not containing the given string."""
+  dummy_not_contains: String
+
+  """All values starting with the given string."""
+  dummy_starts_with: String
+
+  """All values not starting with the given string."""
+  dummy_not_starts_with: String
+
+  """All values ending with the given string."""
+  dummy_ends_with: String
+
+  """All values not ending with the given string."""
+  dummy_not_ends_with: String
   end: DateTime
 
   """All values that are not equal to given value."""
@@ -683,12 +771,13 @@ type ContestSubscriptionPayload {
 input CreateContest {
   buyIn: Int
   contestName: String
+  dummy: String
   end: DateTime
   limitEntries: Boolean
   numberOfEntries: Int
   payout: String
   places: [String!]
-  scoringFormats: [Json!]
+  scoringFormats: Json
   sideBets: Boolean
   sports: [String!]
   start: DateTime
@@ -701,7 +790,9 @@ input CreateContest {
 }
 
 input CreateEntry {
+  entryName: String
   picks: [Json!]
+  rank: Int
   contestId: ID
   contest: EntrycontestContest
   ownerId: ID
@@ -765,20 +856,23 @@ scalar DateTime
 type Entry implements Node {
   contest(filter: ContestFilter): Contest
   createdAt: DateTime!
+  entryName: String
   id: ID!
   owner(filter: UserFilter): User
   picks: [Json!]
+  rank: Int
 }
 
 input EntrycontestContest {
   buyIn: Int
   contestName: String
+  dummy: String
   end: DateTime
   limitEntries: Boolean
   numberOfEntries: Int
   payout: String
   places: [String!]
-  scoringFormats: [Json!]
+  scoringFormats: Json
   sideBets: Boolean
   sports: [String!]
   start: DateTime
@@ -818,6 +912,46 @@ input EntryFilter {
 
   """All values greater than or equal the given value."""
   createdAt_gte: DateTime
+  entryName: String
+
+  """All values that are not equal to given value."""
+  entryName_not: String
+
+  """All values that are contained in given list."""
+  entryName_in: [String!]
+
+  """All values that are not contained in given list."""
+  entryName_not_in: [String!]
+
+  """All values less than the given value."""
+  entryName_lt: String
+
+  """All values less than or equal the given value."""
+  entryName_lte: String
+
+  """All values greater than the given value."""
+  entryName_gt: String
+
+  """All values greater than or equal the given value."""
+  entryName_gte: String
+
+  """All values containing the given string."""
+  entryName_contains: String
+
+  """All values not containing the given string."""
+  entryName_not_contains: String
+
+  """All values starting with the given string."""
+  entryName_starts_with: String
+
+  """All values not starting with the given string."""
+  entryName_not_starts_with: String
+
+  """All values ending with the given string."""
+  entryName_ends_with: String
+
+  """All values not ending with the given string."""
+  entryName_not_ends_with: String
   id: ID
 
   """All values that are not equal to given value."""
@@ -858,6 +992,28 @@ input EntryFilter {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  rank: Int
+
+  """All values that are not equal to given value."""
+  rank_not: Int
+
+  """All values that are contained in given list."""
+  rank_in: [Int!]
+
+  """All values that are not contained in given list."""
+  rank_not_in: [Int!]
+
+  """All values less than the given value."""
+  rank_lt: Int
+
+  """All values less than or equal the given value."""
+  rank_lte: Int
+
+  """All values greater than the given value."""
+  rank_gt: Int
+
+  """All values greater than or equal the given value."""
+  rank_gte: Int
   contest: ContestFilter
   owner: UserFilter
 }
@@ -865,14 +1021,20 @@ input EntryFilter {
 enum EntryOrderBy {
   createdAt_ASC
   createdAt_DESC
+  entryName_ASC
+  entryName_DESC
   id_ASC
   id_DESC
+  rank_ASC
+  rank_DESC
 }
 
 type EntryPreviousValues {
   createdAt: DateTime!
+  entryName: String
   id: ID!
   picks: [Json!]
+  rank: Int
 }
 
 input EntrySubscriptionFilter {
@@ -925,6 +1087,46 @@ input EntrySubscriptionFilterNode {
 
   """All values greater than or equal the given value."""
   createdAt_gte: DateTime
+  entryName: String
+
+  """All values that are not equal to given value."""
+  entryName_not: String
+
+  """All values that are contained in given list."""
+  entryName_in: [String!]
+
+  """All values that are not contained in given list."""
+  entryName_not_in: [String!]
+
+  """All values less than the given value."""
+  entryName_lt: String
+
+  """All values less than or equal the given value."""
+  entryName_lte: String
+
+  """All values greater than the given value."""
+  entryName_gt: String
+
+  """All values greater than or equal the given value."""
+  entryName_gte: String
+
+  """All values containing the given string."""
+  entryName_contains: String
+
+  """All values not containing the given string."""
+  entryName_not_contains: String
+
+  """All values starting with the given string."""
+  entryName_starts_with: String
+
+  """All values not starting with the given string."""
+  entryName_not_starts_with: String
+
+  """All values ending with the given string."""
+  entryName_ends_with: String
+
+  """All values not ending with the given string."""
+  entryName_not_ends_with: String
   id: ID
 
   """All values that are not equal to given value."""
@@ -965,6 +1167,28 @@ input EntrySubscriptionFilterNode {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  rank: Int
+
+  """All values that are not equal to given value."""
+  rank_not: Int
+
+  """All values that are contained in given list."""
+  rank_in: [Int!]
+
+  """All values that are not contained in given list."""
+  rank_not_in: [Int!]
+
+  """All values less than the given value."""
+  rank_lt: Int
+
+  """All values less than or equal the given value."""
+  rank_lte: Int
+
+  """All values greater than the given value."""
+  rank_gt: Int
+
+  """All values greater than or equal the given value."""
+  rank_gte: Int
   contest: ContestFilter
   owner: UserFilter
 }
@@ -995,12 +1219,13 @@ type Event implements Node {
 input EventcontestsContest {
   buyIn: Int
   contestName: String
+  dummy: String
   end: DateTime
   limitEntries: Boolean
   numberOfEntries: Int
   payout: String
   places: [String!]
-  scoringFormats: [Json!]
+  scoringFormats: Json
   sideBets: Boolean
   sports: [String!]
   start: DateTime
@@ -3155,12 +3380,13 @@ type League implements Node {
 input LeaguecontestsContest {
   buyIn: Int
   contestName: String
+  dummy: String
   end: DateTime
   limitEntries: Boolean
   numberOfEntries: Int
   payout: String
   places: [String!]
-  scoringFormats: [Json!]
+  scoringFormats: Json
   sideBets: Boolean
   sports: [String!]
   start: DateTime
@@ -3602,14 +3828,14 @@ type LeagueSubscriptionPayload {
 }
 
 type Mutation {
-  createContest(buyIn: Int, contestName: String, end: DateTime, limitEntries: Boolean, numberOfEntries: Int, payout: String, places: [String!], scoringFormats: [Json!], sideBets: Boolean, sports: [String!], start: DateTime, leagueId: ID, league: ContestleagueLeague, entriesIds: [ID!], entries: [ContestentriesEntry!], eventsIds: [ID!], events: [ContesteventsEvent!]): Contest
-  createEntry(picks: [Json!], contestId: ID, contest: EntrycontestContest, ownerId: ID): Entry
+  createContest(buyIn: Int, contestName: String, dummy: String, end: DateTime, limitEntries: Boolean, numberOfEntries: Int, payout: String, places: [String!], scoringFormats: Json, sideBets: Boolean, sports: [String!], start: DateTime, leagueId: ID, league: ContestleagueLeague, entriesIds: [ID!], entries: [ContestentriesEntry!], eventsIds: [ID!], events: [ContesteventsEvent!]): Contest
+  createEntry(entryName: String, picks: [Json!], rank: Int, contestId: ID, contest: EntrycontestContest, ownerId: ID): Entry
   createEvent(end: DateTime, leaderboard: Json, name: String, participants: [Json!], sport: String, sportsRadarId: String, start: DateTime, contestsIds: [ID!], contests: [EventcontestsContest!]): Event
   createFile(name: String!): File
   createGolfStats(avgPoints: String, country: String, eventsPlayed: String, eventsPlayedActual: String, lastWeek: Int, name: String, pointsGained: String, pointsLost: String, thisWeek: Int, totalPoints: String): GolfStats
   createLeague(autoCreate: Boolean!, defaultBuyIn: Int!, end: DateTime, leagueName: String!, sports: [String!], start: DateTime, createdById: ID, contestsIds: [ID!], contests: [LeaguecontestsContest!], membersIds: [ID!]): League
-  updateContest(buyIn: Int, contestName: String, end: DateTime, id: ID!, limitEntries: Boolean, numberOfEntries: Int, payout: String, places: [String!], scoringFormats: [Json!], sideBets: Boolean, sports: [String!], start: DateTime, leagueId: ID, league: ContestleagueLeague, entriesIds: [ID!], entries: [ContestentriesEntry!], eventsIds: [ID!], events: [ContesteventsEvent!]): Contest
-  updateEntry(id: ID!, picks: [Json!], contestId: ID, contest: EntrycontestContest, ownerId: ID): Entry
+  updateContest(buyIn: Int, contestName: String, dummy: String, end: DateTime, id: ID!, limitEntries: Boolean, numberOfEntries: Int, payout: String, places: [String!], scoringFormats: Json, sideBets: Boolean, sports: [String!], start: DateTime, leagueId: ID, league: ContestleagueLeague, entriesIds: [ID!], entries: [ContestentriesEntry!], eventsIds: [ID!], events: [ContesteventsEvent!]): Contest
+  updateEntry(entryName: String, id: ID!, picks: [Json!], rank: Int, contestId: ID, contest: EntrycontestContest, ownerId: ID): Entry
   updateEvent(end: DateTime, id: ID!, leaderboard: Json, name: String, participants: [Json!], sport: String, sportsRadarId: String, start: DateTime, contestsIds: [ID!], contests: [EventcontestsContest!]): Event
   updateFile(id: ID!, name: String): File
   updateGolfStats(avgPoints: String, country: String, eventsPlayed: String, eventsPlayedActual: String, id: ID!, lastWeek: Int, name: String, pointsGained: String, pointsLost: String, thisWeek: Int, totalPoints: String): GolfStats
@@ -3728,13 +3954,14 @@ type Subscription {
 input UpdateContest {
   buyIn: Int
   contestName: String
+  dummy: String
   end: DateTime
   id: ID!
   limitEntries: Boolean
   numberOfEntries: Int
   payout: String
   places: [String!]
-  scoringFormats: [Json!]
+  scoringFormats: Json
   sideBets: Boolean
   sports: [String!]
   start: DateTime
@@ -3747,8 +3974,10 @@ input UpdateContest {
 }
 
 input UpdateEntry {
+  entryName: String
   id: ID!
   picks: [Json!]
+  rank: Int
   contestId: ID
   contest: EntrycontestContest
   ownerId: ID
@@ -4438,7 +4667,9 @@ type UserSubscriptionPayload {
 }
 
 input UseruserEntriesEntry {
+  entryName: String
   picks: [Json!]
+  rank: Int
   contestId: ID
   contest: EntrycontestContest
 }

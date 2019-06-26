@@ -47,37 +47,7 @@ export async function handler() {
   await Promise.all(
     worldRankings.map(async rank => {
       const idx = allGolfStatses.findIndex(({ name }) => name === rank.name);
-      let mutation;
-      if (idx === -1) {
-        mutation = /* GraphQL */ `(
-				$name: String
-				$thisWeek: Int
-				$lastWeek: Int
-				$country: String
-				$avgPoints: String
-				$totalPoints: String
-				$eventsPlayed: String
-				$pointsLost: String
-				$pointsGained: String
-				$eventsPlayedActual: String
-			) {
-			createGolfStats(
-				name: $name
-				thisWeek: $thisWeek
-				lastWeek: $lastWeek
-				country: $country
-				avgPoints: $avgPoints
-				totalPoints: $totalPoints
-				eventsPlayed: $eventsPlayed
-				pointsLost: $pointsLost
-				pointsGained: $pointsGained
-				eventsPlayedActual: $eventsPlayedActual
-			) {
-				id
-			}
-			}`;
-      } else {
-        mutation = /* GraphQL */ `(
+      const mutation = /* GraphQL */ `(
 				id: ID!
 				$name: String
 				$thisWeek: Int
@@ -90,7 +60,7 @@ export async function handler() {
 				$pointsGained: String
 				$eventsPlayedActual: String
 			) {
-				createGolfStats(
+				updateOrCreateGolfStats(
 					id: $id
 					name: $name
 					thisWeek: $thisWeek
@@ -107,7 +77,6 @@ export async function handler() {
 				}
 			}
 			`;
-      }
       const data = await connection.mutate(mutation, {
         id: (allGolfStatses[idx] && allGolfStatses[idx].id) || null,
         ...rank

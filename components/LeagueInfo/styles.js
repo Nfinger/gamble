@@ -120,7 +120,6 @@ export const MemberTeamName = styled.div`
   outline: 0;
   overflow: hidden;
   padding: 0;
-  text-overflow: ellipsis;
   text-transform: none;
   vertical-align: baseline;
   white-space: nowrap;
@@ -183,7 +182,7 @@ export const ActionButton = styled.button`
 
 export const ContestContainer = styled.div`
   height: 100px;
-  width: 360px;
+  width: 200px;
   border: 1px solid #efefef;
   border-radius: 4px;
   display: inline-block;
@@ -209,7 +208,7 @@ export const ContestMeta = styled.div`
   outline: 0;
   padding: 0;
   vertical-align: baseline;
-  width: 150px;
+  width: 180px;
 `;
 
 export const RightPanel = styled.div`
@@ -468,7 +467,6 @@ export const LeagueDescription = styled.div`
   outline: 0;
   overflow-x: hidden;
   padding: 0;
-  text-overflow: ellipsis;
   vertical-align: baseline;
   white-space: nowrap;
 `;

@@ -116,6 +116,11 @@ export const toProperCase = text =>
     txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
   );
 
+export const getBase = host =>
+  host.indexOf('localhost') > -1
+    ? `http://locahost:3000`
+    : `https://wanna-bet.netlify.com`;
+
 export const success = data => ({
   statusCode: 200,
   body: JSON.stringify(data)

@@ -1,19 +1,9 @@
 import { graphql } from 'react-apollo';
-// import { getLeague, MemberJoinSubscription } from './leagueInfo.gql';
-import { getLeague } from './leagueInfo.gql';
-
-// const subscribeToNewMembers = subscribeToMore => {
-//   subscribeToMore({
-//     document: MemberJoinSubscription,
-//     updateQuery: (prev, { subscriptionData }) => {
-//       if (!subscriptionData.data) return prev;
-//       console.log('subscriptionData', subscriptionData);
-//       return {
-//         ...subscriptionData.data.League
-//       };
-//     }
-//   });
-// };
+import {
+  getLeague,
+  LeagueUpdateSubscription,
+  ContestUpdateSubscription
+} from './leagueInfo.gql';
 
 const withData = graphql(getLeague, {
   options: ({
@@ -21,24 +11,15 @@ const withData = graphql(getLeague, {
       url: {
         query: { leagueId }
       }
-    }
+    },
+    user: { id }
   }) => ({
     variables: {
-      leagueId
+      leagueId,
+      userId: id,
+      now: new Date()
     }
   }),
-  // props: ({ data: { loading, League, error, _subscribeToMore } }) => {
-  //   // console.log(
-  //   //   'subscribeToNewMembers(subscribeToMore);',
-  //   //   subscribeToNewMembers(subscribeToMore)
-  //   // );
-  //   return {
-  //     loading,
-  //     League,
-  //     error
-  //   };
-  // }
-
   props: ({ data: { loading, League, error } }) => ({
     loading,
     League,
@@ -46,4 +27,45 @@ const withData = graphql(getLeague, {
   })
 });
 
-export default comp => withData(comp);
+const withLeagueSubscription = graphql(LeagueUpdateSubscription, {
+  options: ({
+    router: {
+      url: {
+        query: { leagueId }
+      }
+    },
+    user: { id }
+  }) => ({
+    variables: {
+      id: leagueId,
+      userId: id,
+      now: new Date()
+    }
+  }),
+  props: ({ data: { League: { node } = {} } }) => ({
+    League: node
+  })
+});
+
+const withContestSubscription = graphql(ContestUpdateSubscription, {
+  options: ({
+    router: {
+      url: {
+        query: { leagueId }
+      }
+    },
+    user: { id }
+  }) => ({
+    variables: {
+      leagueId,
+      userId: id,
+      now: new Date()
+    }
+  }),
+  props: ({ data: { contest: { node } = {} } }) => ({
+    League: node
+  })
+});
+
+export default comp =>
+  withLeagueSubscription(withContestSubscription(withData(comp)));

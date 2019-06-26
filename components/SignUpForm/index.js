@@ -1,18 +1,21 @@
 // @flow
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import * as jwtToken from 'jwt-decode';
 import AuthFields from '../AuthFields';
 import validate from '../AuthFields/validation';
+import redirect from '../../libraries/redirect';
 import connect from './store';
 
 type Props = {
   mutations: {
-    signUp: Object => Promise<Object>
+    signUp: Object => Promise<Object>,
+    addToLeague: Object => Promise<Object>
   },
   actions: {
-    signIn: string => void,
-    getUser: string => Promise<Object>
-  }
+    signIn: string => void
+  },
+  leagueId: string
 };
 
 type State = {
@@ -33,14 +36,19 @@ class SignUpForm extends React.Component<Props, State> {
     { key: 4, attr: { name: 'password', type: 'password', label: 'Password' } }
   ];
 
+  static defaultProps = {
+    leagueId: ''
+  };
+
   static propTypes = {
     mutations: PropTypes.shape({
-      signUp: PropTypes.func.isRequired
+      signUp: PropTypes.func.isRequired,
+      addToLeague: PropTypes.func.isRequired
     }).isRequired,
     actions: PropTypes.shape({
-      signIn: PropTypes.func.isRequired,
-      getUser: PropTypes.func.isRequired
-    }).isRequired
+      signIn: PropTypes.func.isRequired
+    }).isRequired,
+    leagueId: PropTypes.string
   };
 
   state = {
@@ -101,6 +109,16 @@ class SignUpForm extends React.Component<Props, State> {
           if (response.data.signinUser) {
             const { token } = response.data.signinUser;
             this.props.actions.signIn(token);
+            if (this.props.leagueId) {
+              const { userId } = jwtToken(token);
+              this.props.mutations.addToLeague({
+                userId,
+                leagueId: this.props.leagueId
+              });
+              redirect({}, `/league/${this.props.leagueId}`);
+            } else {
+              redirect({}, '/');
+            }
           } else {
             this.setState({
               errors: response.data.createUser.errors

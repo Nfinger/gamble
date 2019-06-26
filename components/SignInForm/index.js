@@ -3,6 +3,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import AuthFields from '../AuthFields';
 import validate from '../AuthFields/validation';
+import redirect from '../../libraries/redirect';
 import connect from './store';
 
 type Props = {
@@ -10,8 +11,10 @@ type Props = {
     signIn: Object => Promise<Object>
   },
   actions: {
-    signIn: string => void
-  }
+    signIn: string => void,
+    addToLeague: string => void
+  },
+  leagueId: String
 };
 
 type State = {
@@ -30,13 +33,19 @@ class SignInForm extends React.Component<Props, State> {
     { key: 2, attr: { name: 'password', type: 'password', label: 'Password' } }
   ];
 
+  static defaultProps = {
+    leagueId: ''
+  };
+
   static propTypes = {
     mutations: PropTypes.shape({
       signIn: PropTypes.func.isRequired
     }).isRequired,
     actions: PropTypes.shape({
-      signIn: PropTypes.func.isRequired
-    }).isRequired
+      signIn: PropTypes.func.isRequired,
+      addToLeague: PropTypes.func.isRequired
+    }).isRequired,
+    leagueId: PropTypes.string
   };
 
   state = {
@@ -88,9 +97,9 @@ class SignInForm extends React.Component<Props, State> {
     this.props.mutations
       .signIn(valuesPack)
       .then((response: { data: { signinUser: { token: string } } }) => {
-        console.log(response);
         if (response.data) {
           this.props.actions.signIn(response.data.signinUser.token);
+          redirect({}, '/');
         }
       })
       .catch((err: { graphQLErrors?: Array<{ message: string }> }) => {

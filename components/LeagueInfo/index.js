@@ -74,7 +74,7 @@ import {
   PlayerContainer,
   EntryDescriptionContainer
 } from './styles';
-import { OrdinalSuffix, toProperCase } from '../../utils';
+import { OrdinalSuffix, toProperCase, getBase } from '../../utils';
 import EntryForm from '../EntryForms';
 import SignUpForm from '../SignUpForm';
 import Copy from '../Copy';
@@ -83,8 +83,8 @@ import connect from './store';
 type Props = {
   League: Object,
   contests: Object,
-  create: Boolean,
-  socket: Object,
+  router: Boolean,
+  headers: Object,
   loading: Boolean
 };
 
@@ -102,12 +102,10 @@ const LeagueInfo = ({
       }
     ]
   } = {},
-  create,
-  socket,
-  ...rest
+  router: { url: { query: { create } = {} } = {} },
+  headers: { host } = {}
 }: Props) => {
   if (loading) return <>Loading</>;
-  console.log(rest);
   // React Hooks
   const [activeContest, setActiveContest] = useState(contests[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -115,23 +113,15 @@ const LeagueInfo = ({
   const [email, setEmail] = useState('');
   const [modalWidth, setModalWidth] = useState(null);
   const [modalHeight, setModalHeight] = useState(null);
-  const [socketListening, setSocketListening] = useState(false);
   useEffect(() => {
-    if (socket && !socketListening) {
-      socket.on('contestUpdate', args => {
-        // let editable = [...contests];
-        // const idx = contests.findIndex(
-        //   ({ id: contestId }) => args.id === contestId
-        // );
-        // editable[idx] = args;
-        if (activeContest.id === args.id) setActiveContest(args);
-      });
-      setSocketListening(true);
-    }
+    const idx = contests.findIndex(
+      ({ id: contestId }) => activeContest.id === contestId
+    );
+    if (idx > -1) setActiveContest(contests[idx]);
     if (create && !isModalOpen) {
       setModalContentFunction(<SignUpForm leagueId={id} />);
-      setModalHeight(365);
-      setModalWidth(500);
+      setModalHeight(200);
+      setModalWidth(300);
       setIsModalOpen(true);
     }
   });
@@ -142,8 +132,8 @@ const LeagueInfo = ({
       onClick={() => {
         if (member.modalFunction) {
           setModalContentFunction(member.modalFunction);
-          setModalHeight(365);
-          setModalWidth(500);
+          setModalHeight(200);
+          setModalWidth(300);
           setIsModalOpen(true);
         }
       }}
@@ -159,7 +149,13 @@ const LeagueInfo = ({
               {member.firstName} {member.lastName}
             </MemberName>
             <MemberTeamName>{member.email}</MemberTeamName>
-            <MemberDescription>{member.email}</MemberDescription>
+            {member.wins && (
+              <MemberDescription>
+                {member.wins.length === 1
+                  ? `${member.wins.length} Win`
+                  : `${member.wins.length} Wins`}
+              </MemberDescription>
+            )}
           </MemberMeta>
         </MemberDescriptionContainer>
         <MemberActionContainer>
@@ -200,7 +196,7 @@ const LeagueInfo = ({
       <LeagueNameContainer>
         <LeagueName>{toProperCase(entry.entryName)}</LeagueName>
       </LeagueNameContainer>
-      {entry.players.map((player, idx) => (
+      {entry.picks.map((player, idx) => (
         <PlayerContainer>
           <LeagueSectionHeader>
             {OrdinalSuffix(idx + 1)} Tier
@@ -228,7 +224,7 @@ const LeagueInfo = ({
           placeholder="Enter an email address"
           onChange={({ target: { value } }) => setEmail(value)}
         />
-        <Copy text={`http://localhost:3000/league/${id}&create=true`} />
+        <Copy text={`${getBase(host)}/league/${id}&create=true`} />
       </FormSection>
       <ModalFooter>
         <FormButtonContainer>
@@ -348,6 +344,7 @@ const LeagueInfo = ({
                           <LeagueSectionHeaderContainer>
                             <LeagueSectionHeader>
                               Leaderboard
+                              {activeContest.limitEntries}
                             </LeagueSectionHeader>
                             <LeagueSectionHeaderAction
                               onClick={() => {
@@ -359,11 +356,11 @@ const LeagueInfo = ({
                             >
                               {activeContest.limitEntries
                                 ? `${
-                                    activeContest.ownedEntries <
+                                    activeContest.ownedEntries.length <
                                     activeContest.numberOfEntries
                                       ? '+ Create Entry - '
                                       : ''
-                                  }${activeContest.ownedEntries}/${
+                                  }${activeContest.ownedEntries.length}/${
                                     activeContest.numberOfEntries
                                   } created`
                                 : '+ Create Entry'}
@@ -397,14 +394,14 @@ const LeagueInfo = ({
                                   }}
                                 >
                                   <MemberContainer noBorder>
-                                    <MemberRank>{idx + 1}.</MemberRank>
+                                    <MemberRank>{entry.rank}.</MemberRank>
                                     <EntryDescriptionContainer>
                                       <MemberMeta>
                                         <MemberName>
                                           {entry.entryName}
                                         </MemberName>
                                         <MemberTeamName>
-                                          {entry.user.email}
+                                          {entry.owner.email}
                                         </MemberTeamName>
                                         <MemberDescription>
                                           Click to view picks

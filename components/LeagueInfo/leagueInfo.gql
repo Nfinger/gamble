@@ -1,50 +1,97 @@
-query getLeague($leagueId: ID!) {
-  League(id: $leagueId) {
-    id,
-    leagueName
-    members {
-      id
-      firstName
-      lastName
-    },
-    contests {
-      id
-      contestName
-      entries {
-        id
-        picks
-        owner {
-          id
-          email
-          firstName
-          lastName
+fragment LeagueData on League {
+  id
+  leagueName
+  members {
+    id
+    firstName
+    lastName
+    email
+    wins: userEntries(filter: {
+      rank: 1
+      contest: {
+        end_lte: $now
+        league: {
+          id: "cjwwlfh6905xd0186f2mlh8a0"
         }
       }
-      scoringFormats
-      sports
-      events {
+    }) {
+      id
+    }
+  },
+  contests {
+    id
+    contestName
+    limitEntries
+    numberOfEntries
+    ownedEntries: entries(filter: {owner: {
+      id: $userId
+    }}) {
+      id
+    }
+    entries(orderBy: rank_ASC) {
         id
-        sport
-        participants
-        leaderboard
-        name
-        start
-        end
+        createdAt
+        picks
+        entryName
+        owner {
+          id
+          firstName
+          lastName
+          email
+        }
+        rank
       }
+    scoringFormats
+    sports
+    events {
+      id
+      sport
+      participants
+      leaderboard
+      name
       start
       end
+    }
+    start
+    end
+  }
+}
+
+query getLeague($leagueId: ID!, $userId: ID!, $now: DateTime) {
+  League(id: $leagueId) {
+    ...LeagueData
+  }
+}
+
+subscription LeagueUpdateSubscription(
+  $id: ID!, $userId: ID!, $now: DateTime
+) {
+  League(filter: {
+    mutation_in: [UPDATED]
+    node: {
+      id: $id
+    }
+  }) {
+    node {
+      ...LeagueData
     }
   }
 }
 
-subscription MemberJoinSubscription {
-  League(filter: { updatedFields_contains: "members" }) {
+subscription ContestUpdateSubscription(
+  $leagueId: ID!, $userId: ID!, $now: DateTime
+) {
+  Contest(filter: {
+    mutation_in: [UPDATED]
+    node: {
+      league: {
+        id: $leagueId
+      }
+    }
+  }) {
     node {
-      members {
-        id
-        email
-        firstName
-        lastName
+      league {
+        ...LeagueData
       }
     }
   }

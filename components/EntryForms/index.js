@@ -80,9 +80,13 @@ class EntryForms extends React.Component<Props, State> {
       <div>
         {events.map(event => {
           const field = event.participants.map(
-            ({ firstName, lastName }) => `${firstName} ${lastName}`
+            ({ first_name: firstName, last_name: lastName }) =>
+              `${firstName} ${lastName}`
           );
-          const includes = golf.filter(({ name }) => field.includes(name));
+
+          const includes = golf.filter(
+            ({ name, thisWeek }) => field.includes(name) && thisWeek
+          );
           const firstTier = includes.slice(0, 9);
           const secondTier = includes.slice(9, 19);
           const thirdTier = includes.slice(19, 29);
@@ -166,7 +170,7 @@ class EntryForms extends React.Component<Props, State> {
       stats
     } = this.props;
     if (loading) return <>Loading</>;
-    console.log(events);
+
     return (
       <div>
         <ModalBody>

@@ -1,6 +1,8 @@
 import axios from 'axios';
+import { v4 } from 'uuid';
 import * as cheerio from 'cheerio';
 import { connect, success } from '../utils';
+import golfRules from '../rules/golfRules';
 
 // eslint-disable-next-line import/prefer-default-export
 export async function handler() {
@@ -71,6 +73,50 @@ export async function handler() {
       }
       arr.push(text);
     });
+
+  const getAllContestsByIdQuery = /* GraphQL */ `
+    query getAllContestsByEventID($id: ID!) {
+      allContests(filter: { events_some: { id: $id } }) {
+        id
+        entries {
+          id
+          createdAt
+          ownerId
+          rank
+          picks
+        }
+      }
+    }
+  `;
+
+  const { allContests } = await connection.query(getAllContestsByIdQuery, {
+    id: allEvents[0].id
+  });
+
+  const updateContestMutation = /* GraphQL */ `
+    mutation updateContest($id: ID!, $entries: [Json!]!, $dummy: String) {
+      updateContest(id: $id, entries: $entries, dummy: $dummy) {
+        id
+      }
+    }
+  `;
+
+  await Promise.all(
+    allContests.forEach(async contest => {
+      const entries = golfRules.topPerformers(leaderboard, contest);
+      await connection.mutate(updateContestMutation, {
+        id: contest.id,
+        entries: entries.map((entry, idx) => {
+          const rank = idx + 1;
+          return {
+            ...entry,
+            rank
+          };
+        }),
+        dummy: v4()
+      });
+    })
+  );
 
   const mutation = /* GraphQL */ `
     mutation updateEvent($id: ID!, $leaderboard: Json) {
