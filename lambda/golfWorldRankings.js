@@ -61,17 +61,31 @@ export async function handler() {
 				$eventsPlayedActual: String
 			) {
 				updateOrCreateGolfStats(
-					id: $id
-					name: $name
-					thisWeek: $thisWeek
-					lastWeek: $lastWeek
-					country: $country
-					avgPoints: $avgPoints
-					totalPoints: $totalPoints
-					eventsPlayed: $eventsPlayed
-					pointsLost: $pointsLost
-					pointsGained: $pointsGained
-					eventsPlayedActual: $eventsPlayedActual
+					update: {
+						id: $id
+						name: $name
+						thisWeek: $thisWeek
+						lastWeek: $lastWeek
+						country: $country
+						avgPoints: $avgPoints
+						totalPoints: $totalPoints
+						eventsPlayed: $eventsPlayed
+						pointsLost: $pointsLost
+						pointsGained: $pointsGained
+						eventsPlayedActual: $eventsPlayedActual
+					}
+					create: {
+						name: $name
+						thisWeek: $thisWeek
+						lastWeek: $lastWeek
+						country: $country
+						avgPoints: $avgPoints
+						totalPoints: $totalPoints
+						eventsPlayed: $eventsPlayed
+						pointsLost: $pointsLost
+						pointsGained: $pointsGained
+						eventsPlayedActual: $eventsPlayedActual
+					}
 				) {
 					id
 				}
