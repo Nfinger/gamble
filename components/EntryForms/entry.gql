@@ -5,3 +5,37 @@ query getStats {
     thisWeek
   }
 }
+
+mutation updateOrCreateEntry(
+  $id: ID!
+  $entryName: String
+  $ownerId: ID!
+  $contestId: ID!
+  $picks: [String!]
+  $dummy: String
+) {
+  updateOrCreateEntry(
+    update: {
+      id: $id
+      entryName: $entryName
+      ownerId: $ownerId
+      contestId: $contestId
+      picks: $picks
+    }
+    create: {
+      ownerId: $ownerId
+      entryName: $entryName
+      contestId: $contestId
+      picks: $picks
+      rank: 1
+    }
+  ) {
+    id
+  }
+  updateContest(
+    id: $contestId
+    dummy: $dummy
+  ) {
+    id
+  }
+}

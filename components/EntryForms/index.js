@@ -1,6 +1,5 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Axios from 'axios';
 import { format } from 'date-fns';
 import connect from './store';
 
@@ -30,6 +29,12 @@ type Props = {
   loading: Boolean,
   activeContest: Object,
   stats: Object,
+  entry: Object,
+  mutations: {
+    signUp: Object => Promise<Object>,
+    addToLeague: Object => Promise<Object>
+  },
+  user: Object,
   onClose: Function
 };
 
@@ -42,13 +47,18 @@ const dateFormat = 'MM/DD/YY';
 
 class EntryForms extends React.Component<Props, State> {
   state = {
-    entryName: '',
+    entryName: (this.props.entry && this.props.entry.entryName) || '',
     tiers: {
-      first: null,
-      second: null,
-      third: null,
-      fourth: null,
-      fifth: null
+      first:
+        this.props.entry && this.props.entry.picks && this.props.entry.picks[0],
+      second:
+        this.props.entry && this.props.entry.picks && this.props.entry.picks[1],
+      third:
+        this.props.entry && this.props.entry.picks && this.props.entry.picks[2],
+      fourth:
+        this.props.entry && this.props.entry.picks && this.props.entry.picks[3],
+      fifth:
+        this.props.entry && this.props.entry.picks && this.props.entry.picks[4]
     }
   };
 
@@ -147,19 +157,18 @@ class EntryForms extends React.Component<Props, State> {
 
   createEntry = async () => {
     const {
-      activeContest: { id },
+      entry: { id: entryId } = {},
+      activeContest: { id: contestId },
+      mutations: { updateOrCreateEntry },
+      user: { id: ownerId },
       onClose
     } = this.props;
 
     const { tiers, entryName } = this.state;
 
-    const players = [];
-    Object.keys(tiers).map(tier => players.push(tiers[tier]));
-
-    await Axios.post(`/api/contests/${id}/entry`, {
-      entryName,
-      players
-    });
+    const picks = [];
+    Object.keys(tiers).map(tier => picks.push(tiers[tier]));
+    updateOrCreateEntry({ id: entryId, entryName, ownerId, contestId, picks });
     onClose();
   };
 
@@ -190,7 +199,16 @@ class EntryForms extends React.Component<Props, State> {
   }
 }
 
+EntryForms.defaultProps = {
+  entry: {}
+};
+
 EntryForms.propTypes = {
+  entry: PropTypes.object,
+  mutations: PropTypes.shape({
+    updateOrCreateEntry: PropTypes.func.isRequired
+  }).isRequired,
+  user: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   activeContest: PropTypes.object.isRequired,
   stats: PropTypes.object.isRequired

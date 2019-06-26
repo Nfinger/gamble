@@ -34,6 +34,7 @@ import {
   MemberTeamName,
   MemberDescription,
   MemberActionContainer,
+  EntryActionContainer,
   ActionButtonContainer,
   ActionButton,
   ContestContainer,
@@ -78,6 +79,7 @@ import { OrdinalSuffix, toProperCase, getBase } from '../../utils';
 import EntryForm from '../EntryForms';
 import SignUpForm from '../SignUpForm';
 import Copy from '../Copy';
+import Loader from '../Loader';
 import connect from './store';
 
 type Props = {
@@ -85,6 +87,7 @@ type Props = {
   contests: Object,
   router: Boolean,
   headers: Object,
+  user: Object,
   loading: Boolean
 };
 
@@ -102,10 +105,10 @@ const LeagueInfo = ({
       }
     ]
   } = {},
+  user,
   router: { url: { query: { create } = {} } = {} },
   headers: { host } = {}
 }: Props) => {
-  if (loading) return <>Loading</>;
   // React Hooks
   const [activeContest, setActiveContest] = useState(contests[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -117,6 +120,7 @@ const LeagueInfo = ({
     const idx = contests.findIndex(
       ({ id: contestId }) => activeContest.id === contestId
     );
+    console.log(contests);
     if (idx > -1) setActiveContest(contests[idx]);
     if (create && !isModalOpen) {
       setModalContentFunction(<SignUpForm leagueId={id} />);
@@ -234,12 +238,17 @@ const LeagueInfo = ({
     </ModalBody>
   );
 
-  const renderCreateEntry = () => (
-    <EntryForm
-      onClose={() => setIsModalOpen(false)}
-      activeContest={activeContest}
-    />
-  );
+  const renderCreateEntry = (entry, contest) => {
+    console.log(entry);
+    return (
+      <EntryForm
+        user={user}
+        entry={entry}
+        onClose={() => setIsModalOpen(false)}
+        activeContest={contest}
+      />
+    );
+  };
 
   const membersToShow = [...members];
 
@@ -263,178 +272,211 @@ const LeagueInfo = ({
         {modalContentFunction}
       </Rodal>
       <CentralPanel>
-        <LeaguePanel>
-          <LeagueHeaderContainer>
-            <LeagueNameContainer>
-              <LeagueName>Welcome to {leagueName}!</LeagueName>
-              <LeagueDescription>
-                Time to take your friends{"'"} money
-              </LeagueDescription>
-            </LeagueNameContainer>
-          </LeagueHeaderContainer>
-          <LeagueScrollContainer>
-            <LeaguePanelBody>
-              <LeagueContainer>
-                <LeagueChild>
-                  <Section>
-                    <LeagueSectionHeaderContainer>
-                      <LeagueSectionHeader>Members</LeagueSectionHeader>
-                      <LeagueSectionHeaderAction
-                        onClick={() => {
-                          setModalContentFunction(renderInvite());
-                          setModalHeight(200);
-                          setModalWidth(300);
-                          setIsModalOpen(true);
-                        }}
-                      >
-                        + Invite Friend
-                      </LeagueSectionHeaderAction>
-                    </LeagueSectionHeaderContainer>
-                    {membersToShow.map(memberContainer)}
-                  </Section>
-                  <Section>
-                    <LeagueSectionHeaderContainer>
-                      <LeagueSectionHeader>Active Contests</LeagueSectionHeader>
-                      <Link href={`/createContest?id=${id}`}>
-                        <LeagueSectionHeaderAction>
-                          + Create Contest
-                        </LeagueSectionHeaderAction>
-                      </Link>
-                    </LeagueSectionHeaderContainer>
-                    <ScrollingContainer>
-                      {contests.map(contestContainer)}
-                    </ScrollingContainer>
-                  </Section>
-                </LeagueChild>
-              </LeagueContainer>
-            </LeaguePanelBody>
-          </LeagueScrollContainer>
-        </LeaguePanel>
-      </CentralPanel>
-      <RightPanel>
-        <RightContainer>
-          <DragAndDrop>
-            <ChatPanel>
-              <ChatHeaderContainer>
-                <ChatHeader>
-                  <ChatAvatarContainer>
-                    <ChatAvatar />
-                  </ChatAvatarContainer>
-                  <ChatNameContainer>
-                    <ChatName>{activeContest.contestName}</ChatName>
-                    <ChatMeta>
-                      {activeContest.start && (
-                        <ChatMetaDescription>
-                          {format(activeContest.start, 'MM/DD/YYYY')} -{' '}
-                          {format(activeContest.end, 'MM/DD/YYYY')}
-                        </ChatMetaDescription>
-                      )}
-                    </ChatMeta>
-                  </ChatNameContainer>
-                  <ChatHeaderButton />
-                  <ChatHeaderButton />
-                </ChatHeader>
-              </ChatHeaderContainer>
-              <BodyContainer>
-                <BodyPanel>
-                  <Body>
-                    <CommentList>
-                      {!activeContest.create && (
-                        <Section>
-                          <LeagueSectionHeaderContainer>
-                            <LeagueSectionHeader>
-                              Leaderboard
-                              {activeContest.limitEntries}
-                            </LeagueSectionHeader>
-                            <LeagueSectionHeaderAction
-                              onClick={() => {
-                                setModalContentFunction(renderCreateEntry);
-                                setModalHeight(550);
-                                setModalWidth(500);
-                                setIsModalOpen(true);
-                              }}
-                            >
-                              {activeContest.limitEntries
-                                ? `${
-                                    activeContest.ownedEntries.length <
-                                    activeContest.numberOfEntries
-                                      ? '+ Create Entry - '
-                                      : ''
-                                  }${activeContest.ownedEntries.length}/${
-                                    activeContest.numberOfEntries
-                                  } created`
-                                : '+ Create Entry'}
-                            </LeagueSectionHeaderAction>
-                          </LeagueSectionHeaderContainer>
-                          {activeContest.entries.length === 0 && (
-                            <ChatBodyActionButtonContainer
-                              onClick={() => {
-                                setModalContentFunction(renderCreateEntry);
-                                setModalHeight(550);
-                                setModalWidth(500);
-                                setIsModalOpen(true);
-                              }}
-                            >
-                              <ContestEntryButton>
-                                Create Entry
-                              </ContestEntryButton>
-                            </ChatBodyActionButtonContainer>
-                          )}
-                          <DualColumn>
-                            {activeContest.entries.map((entry, idx) => (
-                              <>
-                                <ColumnItem
-                                  onClick={() => {
-                                    setModalContentFunction(() =>
-                                      entryContainer(entry)
-                                    );
-                                    setModalHeight(400);
-                                    setModalWidth(500);
-                                    setIsModalOpen(true);
-                                  }}
-                                >
-                                  <MemberContainer noBorder>
-                                    <MemberRank>{entry.rank}.</MemberRank>
-                                    <EntryDescriptionContainer>
-                                      <MemberMeta>
-                                        <MemberName>
-                                          {entry.entryName}
-                                        </MemberName>
-                                        <MemberTeamName>
-                                          {entry.owner.email}
-                                        </MemberTeamName>
-                                        <MemberDescription>
-                                          Click to view picks
-                                        </MemberDescription>
-                                      </MemberMeta>
-                                    </EntryDescriptionContainer>
-                                  </MemberContainer>
-                                </ColumnItem>
-                                {idx % 2 === 0 && <ColumnSpacer />}
-                              </>
-                            ))}
-                          </DualColumn>
-                        </Section>
-                      )}
-                      {activeContest.create && (
-                        <ChatBodyActionButtonContainer
+        {loading && <Loader />}
+        {!loading && (
+          <LeaguePanel>
+            <LeagueHeaderContainer>
+              <LeagueNameContainer>
+                <LeagueName>Welcome to {leagueName}!</LeagueName>
+                <LeagueDescription>
+                  Time to take your friends{"'"} money
+                </LeagueDescription>
+              </LeagueNameContainer>
+            </LeagueHeaderContainer>
+            <LeagueScrollContainer>
+              <LeaguePanelBody>
+                <LeagueContainer>
+                  <LeagueChild>
+                    <Section>
+                      <LeagueSectionHeaderContainer>
+                        <LeagueSectionHeader>Members</LeagueSectionHeader>
+                        <LeagueSectionHeaderAction
                           onClick={() => {
-                            Router.push('/createContest', { query: { id } });
+                            setModalContentFunction(renderInvite());
+                            setModalHeight(200);
+                            setModalWidth(300);
+                            setIsModalOpen(true);
                           }}
                         >
-                          <ContestEntryButton>
-                            Create First Contest
-                          </ContestEntryButton>
-                        </ChatBodyActionButtonContainer>
-                      )}
-                    </CommentList>
-                  </Body>
-                </BodyPanel>
-              </BodyContainer>
-            </ChatPanel>
-          </DragAndDrop>
-        </RightContainer>
-      </RightPanel>
+                          + Invite Friend
+                        </LeagueSectionHeaderAction>
+                      </LeagueSectionHeaderContainer>
+                      {membersToShow.map(memberContainer)}
+                    </Section>
+                    <Section>
+                      <LeagueSectionHeaderContainer>
+                        <LeagueSectionHeader>
+                          Active Contests
+                        </LeagueSectionHeader>
+                        <Link href={`/createContest?id=${id}`}>
+                          <LeagueSectionHeaderAction>
+                            + Create Contest
+                          </LeagueSectionHeaderAction>
+                        </Link>
+                      </LeagueSectionHeaderContainer>
+                      <ScrollingContainer>
+                        {contests.map(contestContainer)}
+                      </ScrollingContainer>
+                    </Section>
+                  </LeagueChild>
+                </LeagueContainer>
+              </LeaguePanelBody>
+            </LeagueScrollContainer>
+          </LeaguePanel>
+        )}
+      </CentralPanel>
+      {!loading && (
+        <RightPanel>
+          <RightContainer>
+            <DragAndDrop>
+              <ChatPanel>
+                <ChatHeaderContainer>
+                  <ChatHeader>
+                    <ChatAvatarContainer>
+                      <ChatAvatar />
+                    </ChatAvatarContainer>
+                    <ChatNameContainer>
+                      <ChatName>{activeContest.contestName}</ChatName>
+                      <ChatMeta>
+                        {activeContest.start && (
+                          <ChatMetaDescription>
+                            {format(activeContest.start, 'MM/DD/YYYY')} -{' '}
+                            {format(activeContest.end, 'MM/DD/YYYY')}
+                          </ChatMetaDescription>
+                        )}
+                      </ChatMeta>
+                    </ChatNameContainer>
+                    <ChatHeaderButton />
+                    <ChatHeaderButton />
+                  </ChatHeader>
+                </ChatHeaderContainer>
+                <BodyContainer>
+                  <BodyPanel>
+                    <Body>
+                      <CommentList>
+                        {!activeContest.create && (
+                          <Section>
+                            <LeagueSectionHeaderContainer>
+                              <LeagueSectionHeader>
+                                Leaderboard
+                                {activeContest.limitEntries}
+                              </LeagueSectionHeader>
+                              <LeagueSectionHeaderAction
+                                onClick={() => {
+                                  setModalContentFunction(
+                                    renderCreateEntry(null, activeContest)
+                                  );
+                                  setModalHeight(550);
+                                  setModalWidth(500);
+                                  setIsModalOpen(true);
+                                }}
+                              >
+                                {activeContest.limitEntries
+                                  ? `${
+                                      activeContest.ownedEntries.length <
+                                      activeContest.numberOfEntries
+                                        ? '+ Create Entry - '
+                                        : ''
+                                    }${activeContest.ownedEntries.length}/${
+                                      activeContest.numberOfEntries
+                                    } created`
+                                  : '+ Create Entry'}
+                              </LeagueSectionHeaderAction>
+                            </LeagueSectionHeaderContainer>
+                            {activeContest.entries.length === 0 && (
+                              <ChatBodyActionButtonContainer
+                                onClick={() => {
+                                  setModalContentFunction(renderCreateEntry);
+                                  setModalHeight(550);
+                                  setModalWidth(500);
+                                  setIsModalOpen(true);
+                                }}
+                              >
+                                <ContestEntryButton>
+                                  Create Entry
+                                </ContestEntryButton>
+                              </ChatBodyActionButtonContainer>
+                            )}
+                            <DualColumn>
+                              {activeContest.entries.map((entry, idx) => (
+                                <>
+                                  <ColumnItem>
+                                    <MemberContainer noBorder>
+                                      <MemberRank>{entry.rank}.</MemberRank>
+                                      <EntryDescriptionContainer>
+                                        <MemberMeta>
+                                          <MemberName>
+                                            {entry.entryName}
+                                          </MemberName>
+                                          <MemberTeamName>
+                                            {entry.owner.email}
+                                          </MemberTeamName>
+                                          <MemberDescription
+                                            onClick={() => {
+                                              setModalContentFunction(() =>
+                                                entryContainer(entry)
+                                              );
+                                              setModalHeight(400);
+                                              setModalWidth(500);
+                                              setIsModalOpen(true);
+                                            }}
+                                          >
+                                            Click to view picks
+                                          </MemberDescription>
+                                        </MemberMeta>
+                                      </EntryDescriptionContainer>
+                                      <EntryActionContainer>
+                                        <ActionButtonContainer
+                                          onClick={() => {
+                                            setModalContentFunction(
+                                              renderCreateEntry(
+                                                entry,
+                                                activeContest
+                                              )
+                                            );
+                                            setModalHeight(550);
+                                            setModalWidth(500);
+                                            setIsModalOpen(true);
+                                          }}
+                                        >
+                                          <ActionButton>
+                                            Edit Entry
+                                          </ActionButton>
+                                        </ActionButtonContainer>
+                                        <ActionButtonContainer>
+                                          <ActionButton>
+                                            Delete Entry
+                                          </ActionButton>
+                                        </ActionButtonContainer>
+                                      </EntryActionContainer>
+                                    </MemberContainer>
+                                  </ColumnItem>
+                                  {idx % 2 === 0 && <ColumnSpacer />}
+                                </>
+                              ))}
+                            </DualColumn>
+                          </Section>
+                        )}
+                        {activeContest.create && (
+                          <ChatBodyActionButtonContainer
+                            onClick={() => {
+                              Router.push('/createContest', { query: { id } });
+                            }}
+                          >
+                            <ContestEntryButton>
+                              Create First Contest
+                            </ContestEntryButton>
+                          </ChatBodyActionButtonContainer>
+                        )}
+                      </CommentList>
+                    </Body>
+                  </BodyPanel>
+                </BodyContainer>
+              </ChatPanel>
+            </DragAndDrop>
+          </RightContainer>
+        </RightPanel>
+      )}
     </DualPanel>
   );
 };

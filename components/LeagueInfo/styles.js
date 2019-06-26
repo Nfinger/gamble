@@ -116,7 +116,7 @@ export const MemberTeamName = styled.div`
   font-weight: 400;
   line-height: 12px;
   margin: 3px 0 0;
-  max-width: 110px;
+  max-width: 200px;
   outline: 0;
   overflow: hidden;
   padding: 0;
@@ -144,6 +144,19 @@ export const MemberActionContainer = styled.div`
   outline: 0;
   padding: 0;
   vertical-align: baseline;
+`;
+
+export const EntryActionContainer = styled.div`
+  border-width: 0;
+  display: flex;
+  flex-direction: column;
+  font-size: 100%;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  vertical-align: baseline;
+  height: 70px;
+  margin-left: 9rem;
 `;
 
 export const ActionButtonContainer = styled.div`
@@ -606,10 +619,6 @@ export const ColumnItem = styled.div`
   margin-bottom: 2%;
   outline: 0;
   padding: 0 5px 0;
-
-  &:hover {
-    border-color: #b4b4b4;
-  }
 `;
 
 export const ColumnSpacer = styled.span`
