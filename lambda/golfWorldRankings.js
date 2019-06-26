@@ -48,7 +48,7 @@ export async function handler() {
     worldRankings.map(async rank => {
       const idx = allGolfStatses.findIndex(({ name }) => name === rank.name);
       const mutation = /* GraphQL */ `(
-				id: ID!
+				$id: ID!
 				$name: String
 				$thisWeek: Int
 				$lastWeek: Int
