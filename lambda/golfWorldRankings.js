@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { connect, success } from '../utils';
@@ -27,9 +28,9 @@ export async function handler() {
     .each((i, row) => {
       if (i % 11 === 0 && currentRow.length > 0) {
         worldRankings.push({
-          thisWeek: parseInt(currentRow[0], 2),
-          lastWeek: parseInt(currentRow[1], 2),
-          end2018: parseInt(currentRow[2], 2),
+          thisWeek: parseInt(currentRow[0]),
+          lastWeek: parseInt(currentRow[1]),
+          end2018: parseInt(currentRow[2]),
           country: currentRow[3],
           name: currentRow[4],
           avgPoints: currentRow[5],
@@ -91,11 +92,10 @@ export async function handler() {
 				}
 			}
 			`;
-      const data = await connection.mutate(mutation, {
-        id: (allGolfStatses[idx] && allGolfStatses[idx].id) || null,
+      await connection.mutate(mutation, {
+        id: (allGolfStatses[idx] && allGolfStatses[idx].id) || '',
         ...rank
       });
-      console.log(data);
     })
   );
 

@@ -53,6 +53,7 @@
     "graphql:play": "graphql playground --project gamble",
     "graphql:update_schema": "graphql get-schema --project gamble",
     "graphql:see_graph": "graphql voyager --project gamble",
+    "start:lambda": "netlify-lambda serve ./lambda",
     "build:lambda": "netlify-lambda build ./lambda",
     "build:static_export": "cross-env STATIC_EXPORT=true npm run build && cross-env STATIC_EXPORT=true next export && yarn build:lambda",
     "zip-for-beanstalk": "npm prune --production && zip -qr ran-boilerplate.zip . -x \"*.zip\""
