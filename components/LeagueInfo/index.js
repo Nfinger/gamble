@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Rodal from 'rodal';
-import { format } from 'date-fns';
+import { format, isPast } from 'date-fns';
 import Router from 'next/router';
 // include styles
 import 'rodal/lib/rodal.css';
@@ -432,30 +432,32 @@ const LeagueInfo = ({
                                           </MemberDescription>
                                         </MemberMeta>
                                       </EntryDescriptionContainer>
-                                      <EntryActionContainer>
-                                        <ActionButtonContainer
-                                          onClick={() => {
-                                            setModalContentFunction(
-                                              renderCreateEntry(
-                                                entry,
-                                                activeContest
-                                              )
-                                            );
-                                            setModalHeight(550);
-                                            setModalWidth(500);
-                                            setIsModalOpen(true);
-                                          }}
-                                        >
-                                          <ActionButton>
-                                            Edit Entry
-                                          </ActionButton>
-                                        </ActionButtonContainer>
-                                        <ActionButtonContainer>
-                                          <ActionButton>
-                                            Delete Entry
-                                          </ActionButton>
-                                        </ActionButtonContainer>
-                                      </EntryActionContainer>
+                                      {isPast(entry.start) && (
+                                        <EntryActionContainer>
+                                          <ActionButtonContainer
+                                            onClick={() => {
+                                              setModalContentFunction(
+                                                renderCreateEntry(
+                                                  entry,
+                                                  activeContest
+                                                )
+                                              );
+                                              setModalHeight(550);
+                                              setModalWidth(500);
+                                              setIsModalOpen(true);
+                                            }}
+                                          >
+                                            <ActionButton>
+                                              Edit Entry
+                                            </ActionButton>
+                                          </ActionButtonContainer>
+                                          <ActionButtonContainer>
+                                            <ActionButton>
+                                              Delete Entry
+                                            </ActionButton>
+                                          </ActionButtonContainer>
+                                        </EntryActionContainer>
+                                      )}
                                     </MemberContainer>
                                   </ColumnItem>
                                   {idx % 2 === 0 && <ColumnSpacer />}
