@@ -117,7 +117,7 @@ export const toProperCase = text =>
   );
 
 export const getBase = host =>
-  host.indexOf('localhost') > -1
+  host && host.indexOf('localhost') > -1
     ? `http://locahost:3000`
     : `https://wanna-bet.netlify.com`;
 
