@@ -12,7 +12,6 @@ mutation updateOrCreateEntry(
   $ownerId: ID!
   $contestId: ID!
   $picks: [String!]
-  $dummy: String
 ) {
   updateOrCreateEntry(
     update: {
@@ -32,6 +31,12 @@ mutation updateOrCreateEntry(
   ) {
     id
   }
+}
+
+mutation updateContest(
+ 	$contestId: ID!
+  $dummy: String
+){
   updateContest(
     id: $contestId
     dummy: $dummy

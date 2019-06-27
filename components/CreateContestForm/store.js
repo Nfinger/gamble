@@ -3,7 +3,6 @@ import { getContestInfo, createContest } from './createContest.gql';
 
 const formatEvents = (league, events) => {
   const formatted = {};
-  console.log(events);
   events.forEach(event => {
     if (league.sports.includes(event.sport)) {
       if (formatted[event.sport]) formatted[event.sport].push(event);

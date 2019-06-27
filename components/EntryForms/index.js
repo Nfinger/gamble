@@ -31,7 +31,7 @@ type Props = {
   stats: Object,
   entry: Object,
   mutations: {
-    signUp: Object => Promise<Object>,
+    trigger: Object => Promise<Object>,
     addToLeague: Object => Promise<Object>
   },
   user: Object,
@@ -61,6 +61,19 @@ class EntryForms extends React.Component<Props, State> {
         this.props.entry && this.props.entry.picks && this.props.entry.picks[4]
     }
   };
+
+  componentWillUnmount() {
+    this.setState({
+      entryName: '',
+      tiers: {
+        first: null,
+        second: null,
+        third: null,
+        fourth: null,
+        fifth: null
+      }
+    });
+  }
 
   golftier = (events, golf) => {
     const { tiers } = this.state;
@@ -157,9 +170,9 @@ class EntryForms extends React.Component<Props, State> {
 
   createEntry = async () => {
     const {
-      entry: { id: entryId } = {},
+      entry,
       activeContest: { id: contestId },
-      mutations: { updateOrCreateEntry },
+      mutations: { updateOrCreateEntry, trigger },
       user: { id: ownerId },
       onClose
     } = this.props;
@@ -167,8 +180,11 @@ class EntryForms extends React.Component<Props, State> {
     const { tiers, entryName } = this.state;
 
     const picks = [];
+    const id = entry ? entry.id : '';
     Object.keys(tiers).map(tier => picks.push(tiers[tier]));
-    updateOrCreateEntry({ id: entryId, entryName, ownerId, contestId, picks });
+    updateOrCreateEntry({ id, entryName, ownerId, contestId, picks }).then(() =>
+      trigger({ contestId })
+    );
     onClose();
   };
 
@@ -206,7 +222,8 @@ EntryForms.defaultProps = {
 EntryForms.propTypes = {
   entry: PropTypes.object,
   mutations: PropTypes.shape({
-    updateOrCreateEntry: PropTypes.func.isRequired
+    updateOrCreateEntry: PropTypes.func.isRequired,
+    trigger: PropTypes.func.isRequired
   }).isRequired,
   user: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,

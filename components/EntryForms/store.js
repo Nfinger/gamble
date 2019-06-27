@@ -1,6 +1,6 @@
 import { graphql } from 'react-apollo';
 import { v4 } from 'uuid';
-import { getStats, updateOrCreateEntry } from './entry.gql';
+import { getStats, updateOrCreateEntry, updateContest } from './entry.gql';
 
 const processStats = ({ allGolfStatses }) => ({
   golf: allGolfStatses
@@ -26,10 +26,22 @@ const withMutation = graphql(updateOrCreateEntry, {
         picks
       }) =>
         mutate({
-          variables: { id, entryName, ownerId, contestId, picks, dummy: v4() }
+          variables: { id, entryName, ownerId, contestId, picks }
         })
     }
   })
 });
 
-export default comp => withMutation(withData(comp));
+const withSubscriptionTrigger = graphql(updateContest, {
+  props: ({ mutate, ownProps: { mutations } }) => ({
+    mutations: {
+      trigger: ({ contestId }) =>
+        mutate({
+          variables: { contestId, dummy: v4() }
+        }),
+      ...mutations
+    }
+  })
+});
+
+export default comp => withMutation(withSubscriptionTrigger(withData(comp)));

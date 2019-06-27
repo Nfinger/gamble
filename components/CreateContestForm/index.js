@@ -67,7 +67,6 @@ type Props = {
 
 const CreateContestForm = (props: Props) => {
   if (props.loading) return <div>loading</div>;
-  console.log(props);
   const [payoutRadio, setPayoutRadio] = React.useState('allToFirst');
   const [places, setPlaces] = React.useState(['']);
   const [selectedSports, setSelectedSports] = React.useState([]);
@@ -200,7 +199,6 @@ const CreateContestForm = (props: Props) => {
                   ))}
                   <RadioDescription
                     onClick={() => {
-                      console.log('click');
                       if (places.includes('')) return;
                       const editable = [...places];
                       editable.push('');

@@ -33,7 +33,7 @@ import {
   MemberName,
   MemberTeamName,
   MemberDescription,
-  MemberActionContainer,
+  // MemberActionContainer,
   EntryActionContainer,
   ActionButtonContainer,
   ActionButton,
@@ -116,12 +116,16 @@ const LeagueInfo = ({
   const [email, setEmail] = useState('');
   const [modalWidth, setModalWidth] = useState(null);
   const [modalHeight, setModalHeight] = useState(null);
+
   useEffect(() => {
     const idx = contests.findIndex(
       ({ id: contestId }) => activeContest.id === contestId
     );
-    console.log(contests);
-    if (idx > -1) setActiveContest(contests[idx]);
+    if (idx > -1) {
+      setActiveContest(contests[idx]);
+    } else if (activeContest.create) {
+      setActiveContest(contests[0]);
+    }
     if (create && !isModalOpen) {
       setModalContentFunction(<SignUpForm leagueId={id} />);
       setModalHeight(200);
@@ -162,14 +166,14 @@ const LeagueInfo = ({
             )}
           </MemberMeta>
         </MemberDescriptionContainer>
-        <MemberActionContainer>
+        {/* <MemberActionContainer>
           <ActionButtonContainer>
             <ActionButton>Set Keepers</ActionButton>
           </ActionButtonContainer>
           <ActionButtonContainer>
             <ActionButton>Propose Trade</ActionButton>
           </ActionButtonContainer>
-        </MemberActionContainer>
+        </MemberActionContainer> */}
       </MemberRow>
     </MemberContainer>
   );
@@ -238,17 +242,14 @@ const LeagueInfo = ({
     </ModalBody>
   );
 
-  const renderCreateEntry = (entry, contest) => {
-    console.log(entry);
-    return (
-      <EntryForm
-        user={user}
-        entry={entry}
-        onClose={() => setIsModalOpen(false)}
-        activeContest={contest}
-      />
-    );
-  };
+  const renderCreateEntry = (entry, contest) => (
+    <EntryForm
+      user={user}
+      entry={entry}
+      onClose={() => setIsModalOpen(false)}
+      activeContest={contest}
+    />
+  );
 
   const membersToShow = [...members];
 
@@ -363,6 +364,12 @@ const LeagueInfo = ({
                               </LeagueSectionHeader>
                               <LeagueSectionHeaderAction
                                 onClick={() => {
+                                  if (
+                                    activeContest.ownedEntries.length ===
+                                    activeContest.numberOfEntries
+                                  ) {
+                                    return;
+                                  }
                                   setModalContentFunction(
                                     renderCreateEntry(null, activeContest)
                                   );
