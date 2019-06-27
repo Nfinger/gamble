@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { v4 } from 'uuid';
 import * as cheerio from 'cheerio';
 import { connect, success } from '../utils';
 import golfRules from '../rules/golfRules';
@@ -8,7 +7,9 @@ import golfRules from '../rules/golfRules';
 export async function handler() {
   const connection = connect();
 
-  const html = await axios.get('http://www.espn.com/golf/leaderboard');
+  const { data: html } = await axios.get(
+    'http://www.espn.com/golf/leaderboard'
+  );
   const $ = cheerio.load(html);
   const leaderboard = {};
   const title = $('.headline__h1').text();
@@ -20,11 +21,9 @@ export async function handler() {
       }
     }
   `;
-
   const { allEvents } = await connection.query(query, {
     name: title.toLowerCase()
   });
-
   let arr = [];
   const len = $('.Table2__header-row').find('.Table2__th').length;
 
@@ -81,7 +80,10 @@ export async function handler() {
         entries {
           id
           createdAt
-          ownerId
+          owner {
+            id
+            email
+          }
           rank
           picks
         }
@@ -93,43 +95,40 @@ export async function handler() {
     id: allEvents[0].id
   });
 
-  const updateContestMutation = /* GraphQL */ `
-    mutation updateContest($id: ID!, $entries: [Json!]!, $dummy: String) {
-      updateContest(id: $id, entries: $entries, dummy: $dummy) {
+  const updateEntry = /* GraphQL */ `
+    ($id: ID!, $rank: Int) {
+      updateEntry(id: $id, rank: $rank) {
         id
       }
     }
   `;
 
   await Promise.all(
-    allContests.forEach(async contest => {
+    allContests.map(async contest => {
       const entries = golfRules.topPerformers(leaderboard, contest);
-      await connection.mutate(updateContestMutation, {
-        id: contest.id,
-        entries: entries.map((entry, idx) => {
-          const rank = idx + 1;
-          return {
-            ...entry,
-            rank
-          };
-        }),
-        dummy: v4()
-      });
+      await Promise.all(
+        entries.map(async (entry, idx) => {
+          await connection.mutate(updateEntry, {
+            id: entry.id,
+            rank: idx + 1
+          });
+        })
+      );
     })
   );
 
   const mutation = /* GraphQL */ `
-    mutation updateEvent($id: ID!, $leaderboard: Json) {
+    ($id: ID!, $leaderboard: Json) {
       updateEvent(id: $id, leaderboard: $leaderboard) {
         id
       }
     }
   `;
 
-  const data = await connection.mutate(mutation, {
-    id: allEvents[0].id,
-    leaderboard
-  });
-
-  return success('Golf Leaderboard Scraped', data);
+  return connection
+    .mutate(mutation, {
+      id: allEvents[0].id,
+      leaderboard
+    })
+    .then(ret => success('JSON.stringify(ret)', ret));
 }
