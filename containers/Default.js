@@ -17,7 +17,7 @@ type Props = {
 const Default = ({ children, ...rest }: Props) => (
   <App>
     <Helmet>
-      <title>Gamblin Man</title>
+      <title>Wanna Bet</title>
     </Helmet>
     <AppContainer>
       {/* <Header pathname={props.router.url.pathname} /> */}
