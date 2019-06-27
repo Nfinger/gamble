@@ -88,7 +88,8 @@ type Props = {
   router: Boolean,
   headers: Object,
   user: Object,
-  loading: Boolean
+  loading: Boolean,
+  error: String
 };
 
 const LeagueInfo = ({
@@ -106,6 +107,7 @@ const LeagueInfo = ({
     ]
   } = {},
   user,
+  // error,
   headers: { host } = {}
 }: Props) => {
   // React Hooks
@@ -115,12 +117,11 @@ const LeagueInfo = ({
   const [email, setEmail] = useState('');
   const [modalWidth, setModalWidth] = useState(null);
   const [modalHeight, setModalHeight] = useState(null);
-
   useEffect(() => {
     const idx = contests.findIndex(
       ({ id: contestId }) => activeContest.id === contestId
     );
-    if (idx > -1) {
+    if (idx > -1 && !activeContest.create) {
       setActiveContest(contests[idx]);
     } else if (activeContest.create) {
       setActiveContest(contests[0]);

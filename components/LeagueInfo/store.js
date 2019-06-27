@@ -12,11 +12,11 @@ const withData = graphql(getLeague, {
         query: { leagueId }
       }
     },
-    user: { id }
+    user: { id } = {}
   }) => ({
     variables: {
       leagueId,
-      userId: id,
+      userId: id || '',
       now: new Date()
     }
   }),
@@ -34,11 +34,11 @@ const withLeagueSubscription = graphql(LeagueUpdateSubscription, {
         query: { leagueId }
       }
     },
-    user: { id }
+    user: { id } = {}
   }) => ({
     variables: {
       id: leagueId,
-      userId: id,
+      userId: id || '',
       now: new Date()
     }
   }),
@@ -54,11 +54,11 @@ const withContestSubscription = graphql(ContestUpdateSubscription, {
         query: { leagueId }
       }
     },
-    user: { id }
+    user: { id } = {}
   }) => ({
     variables: {
       leagueId,
-      userId: id,
+      userId: id || '',
       now: new Date()
     }
   }),

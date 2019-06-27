@@ -1,4 +1,4 @@
-fragment LeagueData on League {
+fragment LeagueDataWithoutUser on League {
   id
   leagueName
   members {
@@ -11,7 +11,50 @@ fragment LeagueData on League {
       contest: {
         end_lte: $now
         league: {
-          id: "cjwwlfh6905xd0186f2mlh8a0"
+          id: $leagueId
+        }
+      }
+    }) {
+      id
+    }
+  },
+  contests {
+    id
+    contestName
+    limitEntries
+    numberOfEntries
+    entries(orderBy: rank_ASC) {
+        id
+        createdAt
+        picks
+        entryName
+        owner {
+          id
+          firstName
+          lastName
+          email
+        }
+        rank
+      }
+    start
+    end
+  }
+}
+
+fragment LeagueDataWithUser on League {
+  id
+  leagueName
+  members {
+    id
+    firstName
+    lastName
+    email
+    wins: userEntries(filter: {
+      rank: 1
+      contest: {
+        end_lte: $now
+        league: {
+          id: $leagueId
         }
       }
     }) {
@@ -57,9 +100,14 @@ fragment LeagueData on League {
   }
 }
 
+query getLeagueNoUser($leagueId: ID!, $now: DateTime) {
+  League(id: $leagueId) {
+    ...LeagueDataWithoutUser
+  }
+}
 query getLeague($leagueId: ID!, $userId: ID!, $now: DateTime) {
   League(id: $leagueId) {
-    ...LeagueData
+    ...LeagueDataWithUser
   }
 }
 
@@ -73,7 +121,7 @@ subscription LeagueUpdateSubscription(
     }
   }) {
     node {
-      ...LeagueData
+      ...LeagueDataWithUser
     }
   }
 }
@@ -91,7 +139,7 @@ subscription ContestUpdateSubscription(
   }) {
     node {
       league {
-        ...LeagueData
+        ...LeagueDataWithUser
       }
     }
   }

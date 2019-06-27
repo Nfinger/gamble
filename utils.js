@@ -116,6 +116,33 @@ export const toProperCase = text =>
     txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
   );
 
+export const isEquivalent = (a, b) => {
+  // Create arrays of property names
+  const aProps = Object.getOwnPropertyNames(a);
+  const bProps = Object.getOwnPropertyNames(b);
+
+  // If number of properties is different,
+  // objects are not equivalent
+  if (aProps.length !== bProps.length) {
+    return false;
+  }
+
+  for (let i = 0; i < aProps.length; ) {
+    const propName = aProps[i];
+
+    // If values of same property are not equal,
+    // objects are not equivalent
+    if (a[propName] !== b[propName]) {
+      return false;
+    }
+    i += 1;
+  }
+
+  // If we made it this far, objects
+  // are considered equivalent
+  return true;
+};
+
 export const getBase = host =>
   host && host.indexOf('localhost') > -1
     ? `http://locahost:3000`
