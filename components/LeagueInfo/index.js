@@ -106,7 +106,6 @@ const LeagueInfo = ({
     ]
   } = {},
   user,
-  router: { url: { query: { create } = {} } = {} },
   headers: { host } = {}
 }: Props) => {
   // React Hooks
@@ -126,7 +125,8 @@ const LeagueInfo = ({
     } else if (activeContest.create) {
       setActiveContest(contests[0]);
     }
-    if (create && !isModalOpen) {
+
+    if (!loading && (!user || (user && !user.id)) && !isModalOpen) {
       setModalContentFunction(<SignUpForm leagueId={id} />);
       setModalHeight(200);
       setModalWidth(300);
