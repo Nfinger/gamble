@@ -233,7 +233,7 @@ const LeagueInfo = ({
           placeholder="Enter an email address"
           onChange={({ target: { value } }) => setEmail(value)}
         />
-        <Copy text={`${getBase(host)}/league/${id}&create=true`} />
+        <Copy text={`${getBase(host)}/league/${id}`} />
       </FormSection>
       <ModalFooter>
         <FormButtonContainer>
